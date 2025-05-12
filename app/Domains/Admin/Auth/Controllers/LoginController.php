@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Domains\Admin\Auth\Controllers;
+
+use App\Domains\Admin\Auth\Requests\LoginRequest;
+use App\Domains\Admin\User\Models\User;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+class LoginController extends Controller
+{
+    public function login(){
+        return view('Auth::login');
+    }
+
+    public function submitLogin(LoginRequest $request){
+        $remember_me = !is_null($request->remember_me) ? true : false;
+
+        $credentialsOnly = $request->only('email', 'password');
+        if (Auth::attempt($credentialsOnly, $remember_me))
+        {
+            session()->flash('success', trans('messages.login_success'));
+            return response()->json([
+                'success' => true,
+                // 'message' => trans('messages.login_success'),
+                'redirect_url' => route('admin.dashboard')
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => trans('messages.wrong_credentials')
+        ], 400);
+    }
+}
