@@ -48,6 +48,8 @@ return [
             'name'          => 'Name',
             'email'         => 'Email',
             'phone'         => 'Phone',
+            'password'      => 'Password',
+            'confirm_password' => 'Confirm Password',
             'profile_image' => 'Profile Image',
             'type'          => 'Type',
             'status'        => 'Status',

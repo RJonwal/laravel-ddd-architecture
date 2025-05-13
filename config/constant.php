@@ -12,13 +12,15 @@ return [
         'datatable_loader' => 'default/datatable_loader.gif',
         'group_icon' => 'images/groupIcon.svg',
         'firebase_json_file' => storage_path('app/firebase-auth.json'),
+        'page_loader' => 'default/page-loader.gif',
     ],
     'profile_max_size' => 2048,
     'profile_max_size_in_mb' => '2MB',
 
     'roles' =>[
         'super_admin' => 1,
-        'user' => 2
+        'user' => 2,
+        'team_leader' => 3
     ],
 
     'user_status' => [

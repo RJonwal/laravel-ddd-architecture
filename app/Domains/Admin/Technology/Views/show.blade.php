@@ -22,10 +22,13 @@
                                     <th> {{ trans('cruds.user.fields.phone') }} </th>
                                     <td> {{ $user->phone ?? 'N/A' }} </td>
                                 </tr>
-                                
+                                <tr>
+                                    <th> {{ trans('cruds.user.fields.type') }} </th>
+                                    <td> {{ $user->type ? ucfirst($user->type) : 'N/A' }} </td>
+                                </tr>
                                 <tr>
                                     <th> {{ trans('cruds.user.fields.status') }} </th>
-                                    <td> {{ config('constant.user_status')[$user->status] }} </td>
+                                    <td> {{ $user->status == 1 ? config('constant.status')[$user->status] : config('constant.status')[0] }} </td>
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.user.fields.created_at') }} </th>

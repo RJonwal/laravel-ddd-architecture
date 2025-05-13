@@ -61,7 +61,7 @@
 <script>
 
     // Password field hide/show functiolity
-    $(document).on('click', '.toggle-password', function () {        
+    /* $(document).on('click', '.toggle-password', function () {        
         var passwordInput = $(this).prev('input');  
         console.log(passwordInput);      
         if (passwordInput.attr('type') === 'password') {
@@ -71,7 +71,7 @@
             passwordInput.attr('type', 'password');
             $(this).addClass('show-password');
         }
-    });
+    }); */
 
     // Login Ajax
     $(document).on('submit', '#loginForm', function(e){

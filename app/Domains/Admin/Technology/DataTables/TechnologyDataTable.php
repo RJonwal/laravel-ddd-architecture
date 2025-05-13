@@ -11,7 +11,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Support\Str;
 
-class UserDataTable extends DataTable
+class TechnologyDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -40,10 +40,13 @@ class UserDataTable extends DataTable
                 return $record->name ? ucwords($record->name) : '';
             })
 
+            ->editColumn('type', function($record){
+                return $record->type ? ucfirst($record->type) : '';
+            })
 
             ->editColumn('status', function($record){
                 $checkedStatus = '';
-                if($record->status == 'active'){
+                if($record->status == 1){
                     $checkedStatus = 'checked';
                 }
                 return '<div class="checkbox switch">
@@ -57,15 +60,11 @@ class UserDataTable extends DataTable
             ->addColumn('action', function($record){
                 $actionHtml = '';
                if (Gate::check('user_view')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('users.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewUser" title="Show"> <i class="ri-eye-line"></i> </a>';
-                }
-
-                if (Gate::check('user_edit')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('users.edit',$record->uuid).'" class="btn btn-outline-success btn-sm btnEditUser" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
+                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('admin.users.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewUser" title="Show"> <i class="ri-eye-line"></i> </a>';
                 }
                 
                 if (Gate::check('user_delete')) {
-                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteUserBtn" data-href="'.route('users.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
+                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteUserBtn" data-href="'.route('admin.users.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
                 }
                 return $actionHtml;
             })
@@ -140,7 +139,7 @@ class UserDataTable extends DataTable
         $columns[] = Column::make('DT_RowIndex')->title(trans('global.sno'))->orderable(false)->searchable(false)->addClass('dt-sno');
       
         $columns[] = Column::make('name')->title(trans('cruds.user.fields.name'));
-        $columns[] = Column::make('email')->title(trans('cruds.user.fields.type'));
+        $columns[] = Column::make('type')->title(trans('cruds.user.fields.type'));
         $columns[] = Column::make('status')->title(trans('cruds.user.fields.status'));
         $columns[] = Column::make('created_at')->title(trans('cruds.user.fields.created_at'))->addClass('dt-created_at');
        

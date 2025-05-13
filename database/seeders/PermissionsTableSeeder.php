@@ -87,6 +87,23 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
+                'name'       => 'user_create',
+                'title'      => 'User Menu Access',
+                'route_name' => 'users',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'user_edit',
+                'title'      => 'User Menu Access',
+                'route_name' => 'users',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
                 'name'       => 'user_view',
                 'title'      => 'Delete',
                 'route_name' => 'users',

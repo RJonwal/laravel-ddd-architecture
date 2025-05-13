@@ -15,7 +15,7 @@
                 <h4 class="page-title">@lang('cruds.user.title')</h4>
             </div>
             <div class="my-3">
-                <a href="{{ route('users.create') }}"  class="btn btn-primary">Create</a>
+                <a href="javascript:void(0);"  class="btn btn-primary btnAddUser">Create</a>
             </div>
         </div>
     </div>
@@ -46,15 +46,88 @@
 
 <script>
 
-    $(document).ready(function(e){
-        $(document).on('datatableLoaded', function () {
-            var buttonCount = $('.dt-paging-button').not('.previous, .next').length;
-            alert("sdgsdg : "+buttonCount);
-            if(buttonCount <= 1){
-                $('.paging_simple_numbers').addClass('d-none');
-            }
-        })
+$(document).ready(function(e){
+    $(document).on('datatableLoaded', function () {
+        var buttonCount = $('.dt-paging-button').not('.previous, .next').length;
+        alert("sdgsdg : "+buttonCount);
+        if(buttonCount <= 1){
+            $('.paging_simple_numbers').addClass('d-none');
+        }
     })
+})
+
+@can('user_create')
+    $(document).on("click", ".btnAddUser", function() {
+        $('.loader-div').show();
+        var url = $(this).data('href');
+
+        $.ajax({
+            type: 'get',
+            url: "{{route('users.create')}}",
+            dataType: 'json',
+            success: function (response) {
+                $('.loader-div').hide();
+                if(response.success) {
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#AddUser').modal('show');
+                }
+                else {
+                    toasterAlert('error',response.error);
+                }
+            },
+            error: function(res){
+                $('.loader-div').hide();
+                toasterAlert('error',res.responseJSON.error);
+            },
+            complete: function(xhr){
+                $('.loader-div').hide();
+            }
+        });
+    });
+
+    $(document).on('submit','#AddUserForm', function(e) {
+        e.preventDefault();
+        $('.loader-div').show();
+
+        $('.validation-error-block').remove();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('users.store')}}",
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if(response.success) {
+                    $('#AddUser').modal('hide');
+                    $('#user-table').DataTable().ajax.reload(null, false);
+                    toasterAlert('success',response.message);
+                }
+                else {
+                    toasterAlert('error', response.error);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                if(response.responseJSON.error_type == 'something_error'){
+                    toasterAlert('error',response.responseJSON.error);
+                } else {
+                    var errorLabelTitle = '';
+                    $.each(response.responseJSON.errors, function (key, item) {
+                        errorLabelTitle = '<span class="validation-error-block">'+item[0]+'</span>';
+
+                        $("input[name='" + key + "']").after(errorLabelTitle);
+                        $("textarea[name='" + key + "']").after(errorLabelTitle);
+                    });
+                }
+            },
+            complete: function(xhr){
+                $('.loader-div').hide();
+            }
+        });
+    }); 
+@endcan
 
 @can('user_view')
     $(document).on("click", ".btnViewUser", function() {
@@ -82,6 +155,79 @@
             }
         });
     });
+@endcan
+
+@can('user_edit')
+    $(document).on("click", ".btnEditUser", function() {
+        $('.loader-div').show();
+        var url = $(this).data('href');
+
+        $.ajax({
+            type: 'get',
+            url: url,
+            dataType: 'json',
+            success: function (response) {
+                if(response.success) {
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#editUser').modal('show');
+                }
+                else {
+                    toasterAlert('error',response.error);
+                }
+            },
+            error: function(res){
+                toasterAlert('error',res.responseJSON.error);
+            },
+            complete: function(xhr){
+                $('.loader-div').hide();
+            }
+        });
+    });
+
+    $(document).on('submit','#editUserForm', function(e) {
+        e.preventDefault();
+        $('.loader-div').show();
+
+        $('.validation-error-block').remove();
+        var formData = $(this).serialize();
+
+        var url = $(this).data('href');
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if(response.success) {
+                    $('#editUser').modal('hide');
+                    $('#user-table').DataTable().ajax.reload(null, false);
+                    toasterAlert('success',response.message);
+                }
+                else {
+                    toasterAlert('error', response.error);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                if(response.responseJSON.error_type == 'something_error'){
+                    toasterAlert('error',response.responseJSON.error);
+                } else {
+                    var errorLabelTitle = '';
+                    $.each(response.responseJSON.errors, function (key, item) {
+                        errorLabelTitle = '<span class="validation-error-block">'+item[0]+'</span>';
+
+                        $("input[name='" + key + "']").after(errorLabelTitle);
+                        $("textarea[name='" + key + "']").after(errorLabelTitle);
+                    });
+                }
+            },
+            complete: function(xhr){
+                $('.loader-div').hide();
+            }
+        });
+    }); 
 @endcan
 
 @can('user_delete')
