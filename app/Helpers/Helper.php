@@ -1,11 +1,9 @@
 <?php
 
 use App\Domains\Admin\Setting\Models\Setting;
-use App\Models\Uploads;
-use App\Models\User;
+use App\Domains\Admin\Upload\Models\Uploads;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
 use Kreait\Firebase\Factory;
@@ -56,7 +54,7 @@ if (!function_exists('uploadImage')) {
 	 *
 	 * @return array $input
 	 */
-	/* function uploadImage($directory, $file, $folder, $type="profile", $fileType="jpg",$actionType="save",$uploadId=null,$orientation=null)
+	function uploadImage($directory, $file, $folder, $type="profile", $fileType="jpg",$actionType="save",$uploadId=null,$orientation=null)
 	{
 		$oldFile = null;
         if($actionType == "save"){
@@ -78,7 +76,7 @@ if (!function_exists('uploadImage')) {
         }
 
 		return $upload;
-	} */
+	}
 }
 
 if (!function_exists('deleteFile')) {
@@ -86,13 +84,13 @@ if (!function_exists('deleteFile')) {
 	 * Destroy Old Image.	 *
 	 * @param int $id
 	 */
-	/* function deleteFile($upload_id)
+	function deleteFile($upload_id)
 	{
 		$upload = Uploads::find($upload_id);
 		Storage::disk('public')->delete($upload->file_path);
 		$upload->delete();
 		return true;
-	} */
+	}
 }
 
 
@@ -182,31 +180,3 @@ if (!function_exists('generateSlug')) {
 		return $slug;
 	}
 }
-
-/* if (!function_exists('SendPushNotification')) {
-	function SendPushNotification($userIds, $title, $message){
-		
-		$firebase = (new Factory)->withServiceAccount(config('constant.firebase_json_file'));        
-        $messaging = $firebase->createMessaging();
-
-		// Define the FCM tokens you want to send the message to
-		$fcmTokens = User::whereIn('id', $userIds)->pluck('device_token')->toArray();
-
-		// Create the notification
-		$notification = Notification::create()
-			->withTitle($title)
-			->withBody($message);
-
-		// Create the message
-		$messageData = CloudMessage::new()->withNotification($notification); // Optional: Add custom data
-
-		// Send the message to the FCM tokens
-		try {
-			$messaging->sendMulticast($messageData, $fcmTokens);
-		} catch (\Kreait\Firebase\Exception\MessagingException $e) {
-			Log::info('Error sending firebase message:', $e->getMessage());
-		} catch (\Kreait\Firebase\Exception\FirebaseException $e) {
-			Log::info('Firebase error:', $e->getMessage());
-		}
-	}
-} */

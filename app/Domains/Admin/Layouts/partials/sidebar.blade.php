@@ -27,21 +27,21 @@
 
             {{-- Dashboard Menu --}}
             <li class="side-nav-item {{ request()->is('dashboard') ? 'menuitem-active' : ''}}">
-                <a href="{{ route('admin.dashboard') }}" class="side-nav-link {{ request()->is('admin/dashboard') ? 'active' : ''}}">
+                <a href="{{ route('admin.dashboard') }}" class="side-nav-link {{ request()->is('dashboard') ? 'active' : ''}}">
                     <i class="ri-dashboard-3-line"></i>
                     <span> @lang('cruds.menus.dashboard') </span>
                 </a>
             </li>
 
             {{-- User Menu --}}
-            {{-- @can('user_access')
+            @can('user_access')
             <li class="side-nav-item {{ request()->is('users') ? 'menuitem-active' : ''}}">
-                <a href="{{ route('admin.users.index') }}" class="side-nav-link {{ request()->is('admin/users') ? 'active' : ''}}">
+                <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->is('users') ? 'active' : ''}}">
                     <i class=" ri-user-line"></i>
                     <span> @lang('cruds.menus.user') </span>
                 </a>
             </li>
-            @endcan --}}
+            @endcan
 
             {{-- Contact Menu --}}
             {{-- @can('contact_access')

@@ -17,7 +17,7 @@
                    </div>
                     <h2 class="text-center">@lang('global.login')</h2>
                     <p class="text-center">Welcome to {{ getSetting('site_title') ? getSetting('site_title') : config('app.name') }}!</p>
-                    <form method="POST" action="{{route('login.submit')}}">
+                    <form method="POST" id="loginForm">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="form-group">
                             <label for="emailaddress" class="form-label">@lang('global.login_email')</label>

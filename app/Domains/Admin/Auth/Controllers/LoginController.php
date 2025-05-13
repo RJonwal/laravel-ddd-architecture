@@ -32,4 +32,10 @@ class LoginController extends Controller
             'message' => trans('messages.wrong_credentials')
         ], 400);
     }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+        return redirect()->route('login');
+    }
 }

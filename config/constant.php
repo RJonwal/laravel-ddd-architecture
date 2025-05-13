@@ -18,8 +18,7 @@ return [
 
     'roles' =>[
         'super_admin' => 1,
-        'sub_admin' => 2,
-        'staff' => 3,
+        'user' => 2
     ],
 
     'user_status' => [

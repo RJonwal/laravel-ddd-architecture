@@ -37,11 +37,11 @@
                 <a class="nav-link dropdown-toggle arrow-none nav-user" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
-                        {{-- @if(auth()->user()->profile_image_url)
+                        @if(auth()->user()->profile_image_url)
                         <img src="{{ auth()->user()->profile_image_url }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
-                        @else --}}
+                        @else
                         <img src="{{ asset(config('constant.default.user_icon')) }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
-                        {{-- @endif --}}
+                        @endif
                     </span>
                     <span class="d-lg-block d-none">
                         <h5 class="my-0 fw-normal user_profile">
@@ -57,13 +57,13 @@
                     </div>
 
                     <!-- item-->
-                    <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                    <a href="{{ route('show.profile') }}" class="dropdown-item">
                         <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
                         <span>Profile</span>
                     </a>
 
                     <!-- item-->
-                    <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                    <a href="{{ route('auth.logout') }}" class="dropdown-item">
                         <i class="ri-logout-box-line fs-18 align-middle me-1"></i>
                         <span>Logout</span>
                     </a>
