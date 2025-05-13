@@ -26,5 +26,6 @@ class ViewServiceProvider extends ServiceProvider
 
         View::addNamespace('Dashboard', base_path('app/Domains/Admin/Dashboard/Views'));
         View::addNamespace('User', base_path('app/Domains/Admin/User/Views'));
+        View::addNamespace('Technology', base_path('app/Domains/Admin/Technology/Views'));
     }
 }

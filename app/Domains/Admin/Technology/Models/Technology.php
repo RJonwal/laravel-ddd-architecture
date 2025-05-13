@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Admin\User\Models;
+namespace App\Domains\Admin\Technology\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -15,18 +15,12 @@ class Technology extends Model
     ];
 
     protected $fillable = [
-        'uuid',
-        'title',
+        'name',
+        'description',
+        'technology_type',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    protected static function boot ()
-    {
-        parent::boot();
-        static::creating(function(User $model) {
-            $model->uuid = Str::uuid();
-        });
-    }
 }

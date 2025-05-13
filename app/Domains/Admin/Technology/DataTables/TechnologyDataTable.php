@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domains\Admin\User\DataTables;
+namespace App\Domains\Admin\Technology\DataTables;
 
-use App\Domains\Admin\User\Models\User;
+use App\Domains\Admin\Technology\Models\Technology;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -19,17 +19,9 @@ class TechnologyDataTable extends DataTable
      * @param QueryBuilder $query Results from query() method.
      */
 
-    private $authUser;
-
-    public function __construct()
-    {
-        $this->authUser = auth()->user();
-    }
-
-
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query->select('users.*')))
+        return (new EloquentDataTable($query->select('technologies.*')))
             ->addIndexColumn()
 
             ->editColumn('created_at', function($record) {
@@ -40,31 +32,22 @@ class TechnologyDataTable extends DataTable
                 return $record->name ? ucwords($record->name) : '';
             })
 
-            ->editColumn('type', function($record){
-                return $record->type ? ucfirst($record->type) : '';
+            ->editColumn('technology_type', function($record){
+                return $record->technology_type ? config('constant.technology_types')[$record->technology_type] : '';
             })
 
-            ->editColumn('status', function($record){
-                $checkedStatus = '';
-                if($record->status == 1){
-                    $checkedStatus = 'checked';
-                }
-                return '<div class="checkbox switch">
-                    <label>
-                        <input type="checkbox" class="switch-control user_status_cb" '.$checkedStatus.' data-user_id="'.($record->uuid).'" />
-                        <span class="switch-label"></span>
-                    </label>
-                </div>';
-            })
-            
             ->addColumn('action', function($record){
                 $actionHtml = '';
-               if (Gate::check('user_view')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('admin.users.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewUser" title="Show"> <i class="ri-eye-line"></i> </a>';
+               if (Gate::check('technology_view')) {
+                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('technologies.show',$record->id).'" class="btn btn-outline-info btn-sm btnViewTechnology" title="Show"> <i class="ri-eye-line"></i> </a>';
+                }
+
+                if (Gate::check('technology_edit')) {
+                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('technologies.edit',$record->id).'" class="btn btn-outline-success btn-sm btnEditTechnology" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
                 }
                 
-                if (Gate::check('user_delete')) {
-                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteUserBtn" data-href="'.route('admin.users.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
+                if (Gate::check('technology_delete')) {
+                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteTechnologyBtn" data-href="'.route('technologies.destroy', $record->id).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
                 }
                 return $actionHtml;
             })
@@ -89,11 +72,9 @@ class TechnologyDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(User $model): QueryBuilder
+    public function query(Technology $model): QueryBuilder
     {         
-        return $model->whereHas('roles', function($q) {
-            $q->where('id', config('constant.roles.user'));
-        })->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -103,7 +84,7 @@ class TechnologyDataTable extends DataTable
     {
         $orderByColumn = 4;        
         return $this->builder()
-                    ->setTableId('user-table')
+                    ->setTableId('technology-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -138,10 +119,10 @@ class TechnologyDataTable extends DataTable
 
         $columns[] = Column::make('DT_RowIndex')->title(trans('global.sno'))->orderable(false)->searchable(false)->addClass('dt-sno');
       
-        $columns[] = Column::make('name')->title(trans('cruds.user.fields.name'));
-        $columns[] = Column::make('type')->title(trans('cruds.user.fields.type'));
-        $columns[] = Column::make('status')->title(trans('cruds.user.fields.status'));
-        $columns[] = Column::make('created_at')->title(trans('cruds.user.fields.created_at'))->addClass('dt-created_at');
+        $columns[] = Column::make('name')->title(trans('cruds.technology.fields.name'));
+        $columns[] = Column::make('technology_type')->title(trans('cruds.technology.fields.technology_type'));
+        $columns[] = Column::make('description')->title(trans('cruds.technology.fields.description'));
+        $columns[] = Column::make('created_at')->title(trans('cruds.technology.fields.created_at'))->addClass('dt-created_at');
        
         $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');
 
@@ -153,6 +134,6 @@ class TechnologyDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'Technologies' . date('YmdHis');
     }
 }

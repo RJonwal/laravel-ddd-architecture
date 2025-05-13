@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            $table->string('designation')->nullable();
             $table->enum('status', array_keys(config('constant.user_status')))->default('active');
 
             $table->rememberToken();

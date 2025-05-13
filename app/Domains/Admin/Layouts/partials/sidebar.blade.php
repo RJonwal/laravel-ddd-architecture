@@ -44,14 +44,14 @@
             @endcan
 
             {{-- Contact Menu --}}
-            {{-- @can('contact_access')
-            <li class="side-nav-item {{ request()->is('queries') ? 'menuitem-active' : ''}}">
-                <a href="{{ route('admin.queries.index') }}" class="side-nav-link {{ request()->is('admin/queries') ? 'active' : ''}}">
+            @can('technology_access')
+            <li class="side-nav-item {{ request()->is('technologies') ? 'menuitem-active' : ''}}">
+                <a href="{{ route('technologies.index') }}" class="side-nav-link {{ request()->is('technologies') ? 'active' : ''}}">
                     <i class=" ri-mail-line"></i>
-                    <span> @lang('cruds.menus.contact') </span>
+                    <span> @lang('cruds.menus.technology') </span>
                 </a>
             </li>
-            @endcan --}}
+            @endcan
 
             {{-- Rating Menu --}}
             {{-- @can('rating_access')

@@ -25,7 +25,7 @@
                                 
                                 <tr>
                                     <th> {{ trans('cruds.user.fields.status') }} </th>
-                                    <td> {{ config('constant.user_status')[$user->status] }} </td>
+                                    <td> {{ $user->status ? config('constant.user_status')[$user->status] : 'N/A' }} </td>
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.user.fields.created_at') }} </th>

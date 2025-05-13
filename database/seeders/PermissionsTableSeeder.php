@@ -127,6 +127,48 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+
+            [
+                'name'       => 'technology_access',
+                'title'      => 'Technology Menu Access',
+                'route_name' => 'technologys',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'technology_create',
+                'title'      => 'Technology Menu Access',
+                'route_name' => 'technologies',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'technology_edit',
+                'title'      => 'Technology Menu Access',
+                'route_name' => 'technologies',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
+                'name'       => 'technology_view',
+                'title'      => 'Delete',
+                'route_name' => 'technologies',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'technology_delete',
+                'title'      => 'Delete',
+                'route_name' => 'technologies',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
         ];
         Permission::insert($permissions);
     }

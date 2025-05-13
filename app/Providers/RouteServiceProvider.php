@@ -31,6 +31,7 @@ class RouteServiceProvider extends ServiceProvider
             // Add more route files as needed
             require base_path('app/Domains/Admin/Dashboard/Routes/dashboard.php');
             require base_path('app/Domains/Admin/User/Routes/user.php');
+            require base_path('app/Domains/Admin/Technology/Routes/technology.php');
         });
 
         
