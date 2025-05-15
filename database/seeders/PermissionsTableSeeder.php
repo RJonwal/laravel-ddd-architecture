@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Domains\Admin\Permission\Models\Permission;
+use App\Domains\Admin\Master\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -128,10 +128,11 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
 
+            // Technology permissions
             [
                 'name'       => 'technology_access',
                 'title'      => 'Technology Menu Access',
-                'route_name' => 'technologys',
+                'route_name' => 'technologies',
                 'type'       => 'backend',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -165,6 +166,49 @@ class PermissionsTableSeeder extends Seeder
                 'name'       => 'technology_delete',
                 'title'      => 'Delete',
                 'route_name' => 'technologies',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            // Project permissions
+            [
+                'name'       => 'project_access',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'projects',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'project_create',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'projects',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'project_edit',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'projects',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
+                'name'       => 'project_view',
+                'title'      => 'Delete',
+                'route_name' => 'projects',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'project_delete',
+                'title'      => 'Delete',
+                'route_name' => 'projects',
                 'type'       => 'backend',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,

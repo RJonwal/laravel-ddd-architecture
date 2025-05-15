@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Domains\Admin\Role\Models\Role;
+use App\Domains\Admin\Master\Role\Models\Role;
 use App\Domains\Admin\User\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Gate;

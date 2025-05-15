@@ -21,11 +21,12 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Admin layout and partials blade files
-        View::addNamespace('Layouts', base_path('app/Domains/Admin/Layouts'));
+        View::addNamespace('Layouts', base_path('app/Domains/Admin/Master/Layouts'));
         View::addNamespace('Auth', base_path('app/Domains/Admin/Auth/Views'));
 
         View::addNamespace('Dashboard', base_path('app/Domains/Admin/Dashboard/Views'));
         View::addNamespace('User', base_path('app/Domains/Admin/User/Views'));
         View::addNamespace('Technology', base_path('app/Domains/Admin/Technology/Views'));
+        View::addNamespace('Project', base_path('app/Domains/Admin/Project/Views'));
     }
 }

@@ -15,7 +15,7 @@
                 <h4 class="page-title">@lang('cruds.user.title')</h4>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0);"  class="btn btn-primary btnAddUser">Create</a>
+                <a href="javascript:void(0);"  class="btn btn-primary btnAddUser">@lang('global.create')</a>
             </div>
         </div>
     </div>

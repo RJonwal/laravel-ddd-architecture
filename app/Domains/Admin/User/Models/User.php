@@ -4,8 +4,8 @@ namespace App\Domains\Admin\User\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Domains\Admin\Role\Models\Role;
-use App\Domains\Admin\Upload\Models\Uploads;
+use App\Domains\Admin\Master\Role\Models\Role;
+use App\Domains\Admin\Master\Upload\Models\Uploads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;

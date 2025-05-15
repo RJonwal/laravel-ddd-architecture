@@ -16,7 +16,7 @@
                 <h4 class="page-title">@lang('cruds.technology.title')</h4>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0);"  class="btn btn-primary btnAddTechnology">Create</a>
+                <a href="javascript:void(0);"  class="btn btn-primary btnAddTechnology">@lang('global.create')</a>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@ $(document).ready(function(e){
                 }
             },
             error: function (response) {
-                console.log(response);
+                $('.loader-div').hide();
                 if(response.responseJSON.error_type == 'something_error'){
                     toasterAlert('error',response.responseJSON.error);
                 } else {

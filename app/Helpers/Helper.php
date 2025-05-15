@@ -1,14 +1,11 @@
 <?php
 
 use App\Domains\Admin\Setting\Models\Setting;
-use App\Domains\Admin\Upload\Models\Uploads;
+use App\Domains\Admin\Master\Upload\Models\Uploads;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
 
 if (!function_exists('getCommonValidationRuleMsgs')) {
 	function getCommonValidationRuleMsgs()

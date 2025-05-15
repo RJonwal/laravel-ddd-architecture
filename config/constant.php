@@ -66,4 +66,11 @@ return [
         'iot'               => 'IoT',
         'other'             => 'Other',
     ],
+
+    'project_status' => [
+        'start'     => 'Start',
+        'hold'     => 'Hold',
+        'progress'     => 'Progress',
+        'complete'     => 'Complete',
+    ],
 ];

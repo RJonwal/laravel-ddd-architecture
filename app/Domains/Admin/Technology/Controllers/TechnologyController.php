@@ -35,7 +35,7 @@ class TechnologyController extends Controller
             $viewHTML = view('Technology::create')->render();
             return response()->json(['success' => true, 'htmlView' => $viewHTML]);
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -57,7 +57,7 @@ class TechnologyController extends Controller
             
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
