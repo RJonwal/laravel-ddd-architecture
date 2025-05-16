@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name',191);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('project_lead')->nullable();
+            $table->unsignedBigInteger('project_lead')->nullable();
             $table->longText('description')->nullable();
             $table->longText('refrence_details')->nullable();
             $table->string('live_url')->nullable();

@@ -73,4 +73,15 @@ return [
         'progress'     => 'Progress',
         'complete'     => 'Complete',
     ],
+
+    'task_priority' => [
+        'low'       => 'Low',
+        'medium'    => 'Medium',
+        'high'      => 'High'
+    ],
+    'task_status'       => [
+        'initial'       => 'Initial',
+        'in_progress'   => 'In Progress',
+        'completed'     => 'Completed',
+    ],
 ];

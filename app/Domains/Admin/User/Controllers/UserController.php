@@ -171,10 +171,10 @@ class UserController extends Controller
                 DB::beginTransaction();
                 try{
                     $user = User::where('uuid', $request->id)->first();
-                    if($user->status == 0){
-                        $status = 1;
+                    if($user->status == 'inactive'){
+                        $status = 'active';
                     } else {
-                        $status = 0;
+                        $status = 'inactive';
                     }
                     $user->update(['status' => $status]);
 

@@ -33,6 +33,8 @@ class RouteServiceProvider extends ServiceProvider
             require base_path('app/Domains/Admin/User/Routes/user.php');
             require base_path('app/Domains/Admin/Technology/Routes/technology.php');
             require base_path('app/Domains/Admin/Project/Routes/project.php');
+            require base_path('app/Domains/Admin/Milestone/Routes/milestone.php');
+            require base_path('app/Domains/Admin/Task/Routes/task.php');
         });
 
         

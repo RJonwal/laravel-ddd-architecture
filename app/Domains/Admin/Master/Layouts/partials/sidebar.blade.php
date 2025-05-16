@@ -61,6 +61,36 @@
                 </a>
             </li>
             @endcan
+            
+            {{-- Milestone Menu --}}
+            @can('milestone_access')
+            <li class="side-nav-item {{ request()->is('milestones') ? 'menuitem-active' : ''}}">
+                <a href="{{ route('milestones.index') }}" class="side-nav-link {{ request()->is('milestones') ? 'active' : ''}}">
+                    <i class=" ri-calendar-check-line"></i>
+                    <span> @lang('cruds.menus.milestone') </span>
+                </a>
+            </li>
+            @endcan
+
+            {{-- Task Menu --}}
+            @can('task_access')
+            <li class="side-nav-item {{ request()->is('tasks') ? 'menuitem-active' : ''}}">
+                <a href="{{ route('tasks.index') }}" class="side-nav-link {{ request()->is('tasks') ? 'active' : ''}}">
+                    <i class=" ri-task-line"></i>
+                    <span> @lang('cruds.menus.task') </span>
+                </a>
+            </li>
+            @endcan
+
+            {{-- Rating Menu --}}
+            {{-- @can('rating_access')
+            <li class="side-nav-item {{ request()->is('user-ratings') ? 'menuitem-active' : ''}}">
+                <a href="{{ route('admin.ratings.index') }}" class="side-nav-link {{ request()->is('admin/user-ratings') ? 'active' : ''}}">
+                    <i class=" ri-shield-star-line"></i>
+                    <span> @lang('cruds.menus.project') </span>
+                </a>
+            </li>
+            @endcan--}}
 
             {{-- Announcement Menu --}}
             {{-- @can('announcement_access')

@@ -32,12 +32,12 @@ class ProjectStoreRequest extends FormRequest
             
             'project_lead'  => [
                 'required',
-                'exists:users,id',
+                'exists:users,uuid',
             ],
             'assign_developers'  =>[
                 'required',
                 'array',
-                'exists:users,id',
+                'exists:users,uuid',
             ],
             'start_date' => [
                 'nullable',

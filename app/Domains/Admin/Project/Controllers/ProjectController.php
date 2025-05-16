@@ -88,7 +88,7 @@ class ProjectController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => trans('messages.crud.update_record'),
+                'message' => trans('messages.crud.create_record'),
                 'redirectUrl' => route('projects.index')
             ], 200);
             
