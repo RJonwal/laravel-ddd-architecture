@@ -213,6 +213,42 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+
+            // Daily Task log permissions
+            [
+                'name'       => 'daily_activity_log_access',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'daily_activity_log_create',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'daily_activity_log_edit',
+                'title'      => 'Project Menu Access',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
+                'name'       => 'daily_activity_log_view',
+                'title'      => 'Delete',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
             [
                 'name'       => 'milestone_access',
                 'title'      => 'Milestone Menu Access',

@@ -65,7 +65,7 @@ class MilestoneController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => trans('messages.crud.create_record'),
+                'message' => trans('messages.crud.add_record'),
             ], 200);
             
         } catch (\Exception $e) {

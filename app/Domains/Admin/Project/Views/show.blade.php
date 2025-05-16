@@ -20,6 +20,7 @@
                         </div>
                     </div>
                 @endif
+
                 <div class="card">
                     <div class="card-header">
                         <h5>{{ trans('cruds.project.project_details') }}</h5>
@@ -59,115 +60,127 @@
                         </table>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h5>{{ trans('cruds.project.fields.assign_developers') }}</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="taskboard-right-revision user-box mt-3 ms-3 assign-user">
-                            @if($project && $project->assignDevelopers->count() > 0)
-                                @foreach($project->assignDevelopers as $assignDeveloper)
-                                    <div class="media mb-2">
-                                        <div class="media-left media-middle mr-3">
-                                            @if($assignDeveloper->profile_image_url)
-                                            <img src="{{ $assignDeveloper->profile_image_url }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
-                                            @else
-                                            <img src="{{ asset(config('constant.default.user_icon')) }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
-                                            @endif
-                                        </div>
-                                        <div class="media-body ms-2">
-                                            <h6 class="m-0 h6">{{ ucfirst($assignDeveloper->name ?? '') }}</h6>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif  
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h5>{{ trans('cruds.project.fields.technology') }}</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="taskboard-right-revision user-box mt-3 ms-3">
-                            @if($project && $project->technologies->count() > 0)
-                                @foreach($project->technologies as $technology)
-                                    <div class="media align-items-center mb-3 ">
-                                        <div class="media-left">
-                                            <a class="btn btn-outline-primary btn-icon me-2" role="button">
-                                                <i class="fas fa-keyboard"></i></i>
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="h6">{{ ucfirst($technology->name) ?? '' }}</h6>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif  
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header d-flex">
-                        <div class="col-md-6">
-                            <h5>{{ trans('cruds.project.fields.attachment') }}</h5>
-                        </div>
-                        @if(isset($project->project_document_url) && !empty($project->project_document_url))
-                            <div class="col-md-6 text-end">
-                                <a title="{{ trans('cruds.project.download_all_attachment') }}" class="btn btn-info btn-sm createZipDownload" href="javascript:void(0)" data-href="{{ route('projects.projectAttachmentZip', $project->uuid) }}">
-                                    <i class="fa fa-download" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        @endif
-                    </div>
-                    @php  
-                        $imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
-                        $excelFileExtensions = ['xls','xlsx', 'xml', 'csv', 'xlsm', 'xlw', 'xlr'];
-                        $wordFileExtensions = ['doc', 'docm', 'docx', 'dot'];
-                        $pdfFileExtensions = ['pdf'];
-                        $zipFileExtensions = ['zip','rar'];
-                    @endphp
-
-                    <div class="card-block task-attachment">
-                        <ul class="media-list p-0">
-                            @if(isset($project->project_document_url) && !empty($project->project_document_url))
-                                @foreach($project->uploads as $key => $projectDocument)
-                                    <li class="media d-flex m-b-15 align-items-center">
-                                        <div class="file-attach col-md-2 text-center">
-                                            @if(in_array($projectDocument->extension, $imageFileExtensions))
-                                                <i class="far fa-file-alt f-28" aria-hidden="true"></i>
-                                            @elseif(in_array($projectDocument->extension, $excelFileExtensions))
-                                                <i class="far fa-file-excel f-28"></i>
-                                            @elseif(in_array($projectDocument->extension, $wordFileExtensions))
-                                                <i class="far fa-file-word f-28"></i>
-                                            @elseif(in_array($projectDocument->extension, $pdfFileExtensions))
-                                                <i class="far fa-file-pdf f-28"></i>
-                                            @elseif(in_array($projectDocument->extension, $zipFileExtensions))
-                                                <i class="fa fa-file-zip-o fa-2x" aria-hidden="true"></i>
-                                            @else
-                                                <i class="far fa-file-alt f-28" aria-hidden="true"></i>
-                                            @endif
-                                        </div>
-                                        <div class="media-body col-md-8">
-                                            @php 
-                                                $fileNameArray = explode('/', $projectDocument->file_path);
-                                                $fileName = end($fileNameArray);
-                                            @endphp
-                                            <a target="_blank" href="{{ asset('storage/'.$projectDocument->file_path) ?? '' }}" class="m-b-5 d-block text-secondary">{{ $fileName ?? '' }}</a>
-                                        </div>
-                                        <div class="float-right text-muted col-md-2 text-center">
-                                            <a class="" download="{{ $fileName ?? '' }}" href="{{ asset('storage/'.$projectDocument->file_path) ?? '' }}"><i class="fas fa-download f-18"></i></a>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            @else
-                                <span>{{ trans('cruds.project.no_attachment') }}</span>
-                            @endif
-                        </ul>
-                    </div>
-                </div> 
             </div>
-            <div class="col-xl-8 col-lg-12">
+
+            <div class="col-xl-8 col-lg-12 task-detail-right">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-12 task-detail-right">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>{{ trans('cruds.project.fields.assign_developers') }}</h5>
+                            </div>
+                            <div class="card-block">
+                                <div class="taskboard-right-revision user-box mt-3 ms-3 assign-user">
+                                    @if($project && $project->assignDevelopers->count() > 0)
+                                        @foreach($project->assignDevelopers as $assignDeveloper)
+                                            <div class="media mb-2">
+                                                <div class="media-left media-middle mr-3">
+                                                    @if($assignDeveloper->profile_image_url)
+                                                    <img src="{{ $assignDeveloper->profile_image_url }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
+                                                    @else
+                                                    <img src="{{ asset(config('constant.default.user_icon')) }}" alt="user-image" width="32" class="rounded-circle user-profile-img">
+                                                    @endif
+                                                </div>
+                                                <div class="media-body ms-2">
+                                                    <h6 class="m-0 h6">{{ ucfirst($assignDeveloper->name ?? '') }}</h6>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-12 task-detail-right">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>{{ trans('cruds.project.fields.technology') }}</h5>
+                            </div>
+                            <div class="card-block">
+                                <div class="taskboard-right-revision user-box mt-3 ms-3">
+                                    @if($project && $project->technologies->count() > 0)
+                                        @foreach($project->technologies as $technology)
+                                            <div class="media align-items-center mb-3 ">
+                                                <div class="media-left">
+                                                    <a class="btn btn-outline-primary btn-icon me-2" role="button">
+                                                        <i class="fas fa-keyboard"></i></i>
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="h6">{{ ucfirst($technology->name) ?? '' }}</h6>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 task-detail-right">
+                        <div class="card">
+                            <div class="card-header d-flex">
+                                <div class="col-md-6">
+                                    <h5>{{ trans('cruds.project.fields.attachment') }}</h5>
+                                </div>
+                                @if(isset($project->project_document_url) && !empty($project->project_document_url))
+                                    <div class="col-md-6 text-end">
+                                        <a title="{{ trans('cruds.project.download_all_attachment') }}" class="btn btn-info btn-sm createZipDownload" href="javascript:void(0)" data-href="{{ route('projects.projectAttachmentZip', $project->uuid) }}">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                            @php  
+                                $imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
+                                $excelFileExtensions = ['xls','xlsx', 'xml', 'csv', 'xlsm', 'xlw', 'xlr'];
+                                $wordFileExtensions = ['doc', 'docm', 'docx', 'dot'];
+                                $pdfFileExtensions = ['pdf'];
+                                $zipFileExtensions = ['zip','rar'];
+                            @endphp
+
+                            <div class="card-block task-attachment">
+                                <ul class="media-list p-0">
+                                    @if(isset($project->project_document_url) && !empty($project->project_document_url))
+                                        @foreach($project->uploads as $key => $projectDocument)
+                                            <li class="media d-flex m-b-15 align-items-center">
+                                                <div class="file-attach col-md-2 text-center">
+                                                    @if(in_array($projectDocument->extension, $imageFileExtensions))
+                                                        <i class="far fa-file-alt f-28" aria-hidden="true"></i>
+                                                    @elseif(in_array($projectDocument->extension, $excelFileExtensions))
+                                                        <i class="far fa-file-excel f-28"></i>
+                                                    @elseif(in_array($projectDocument->extension, $wordFileExtensions))
+                                                        <i class="far fa-file-word f-28"></i>
+                                                    @elseif(in_array($projectDocument->extension, $pdfFileExtensions))
+                                                        <i class="far fa-file-pdf f-28"></i>
+                                                    @elseif(in_array($projectDocument->extension, $zipFileExtensions))
+                                                        <i class="fa fa-file-zip-o fa-2x" aria-hidden="true"></i>
+                                                    @else
+                                                        <i class="far fa-file-alt f-28" aria-hidden="true"></i>
+                                                    @endif
+                                                </div>
+                                                <div class="media-body col-md-8">
+                                                    @php 
+                                                        $fileNameArray = explode('/', $projectDocument->file_path);
+                                                        $fileName = end($fileNameArray);
+                                                    @endphp
+                                                    <a target="_blank" href="{{ asset('storage/'.$projectDocument->file_path) ?? '' }}" class="m-b-5 d-block text-secondary">{{ $fileName ?? '' }}</a>
+                                                </div>
+                                                <div class="float-right text-muted col-md-2 text-center">
+                                                    <a class="" download="{{ $fileName ?? '' }}" href="{{ asset('storage/'.$projectDocument->file_path) ?? '' }}"><i class="fas fa-download f-18"></i></a>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <span>{{ trans('cruds.project.no_attachment') }}</span>
+                                    @endif
+                                </ul>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-3"> {{ trans('cruds.project.project_overview') }} </h5>

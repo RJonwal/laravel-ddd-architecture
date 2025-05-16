@@ -58,7 +58,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => trans('messages.crud.update_record'),
+                'message' => trans('messages.crud.add_record'),
             ], 200);
             
         } catch (\Exception $e) {

@@ -21,7 +21,7 @@ class ProjectDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query->select('projects.*')->with(['projectLead'])))
+        return (new EloquentDataTable($query->with(['projectLead'])->select('projects.*')))
             ->addIndexColumn()
 
             ->editColumn('created_at', function($record) {
@@ -34,6 +34,18 @@ class ProjectDataTable extends DataTable
 
             ->editColumn('projectLead.name', function($record){
                 return $record->project_lead && $record->projectLead ? ucwords($record->projectLead->name)  : '';
+            })
+
+            ->editColumn('start_date', function($record) {
+                return $record->start_date ? $record->start_date->format(config('constant.date_format.date')) : '';
+            })
+
+            ->editColumn('end_date', function($record) {
+                return $record->end_date ? $record->end_date->format(config('constant.date_format.date')) : '';
+            })
+
+            ->editColumn('project_status', function($record) {
+                return $record->project_status ? config('constant.project_status')[$record->project_status] : '';
             })
 
             ->addColumn('action', function($record){
@@ -57,16 +69,18 @@ class ProjectDataTable extends DataTable
                 $searchDateFormat = config('constant.search_date_format.date_time');
                 $query->whereRaw("DATE_FORMAT(created_at,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->filterColumn('status', function ($query, $keyword) {
-                $statusSearch  = null;
-                if (Str::contains('active', strtolower($keyword))) {
-                        $statusSearch = 1;
-                } else if (Str::contains('inactive', strtolower($keyword))) {
-                        $statusSearch = 0;
-                }
-                $query->where('status', $statusSearch); 
+
+            ->filterColumn('start_date', function ($query, $keyword) {
+                $searchDateFormat = config('constant.search_date_format.date');
+                $query->whereRaw("DATE_FORMAT(start_date,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->rawColumns(['action', 'status']);
+
+            ->filterColumn('end_date', function ($query, $keyword) {
+                $searchDateFormat = config('constant.search_date_format.date');
+                $query->whereRaw("DATE_FORMAT(end_date,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
+            })
+            
+            ->rawColumns(['action']);
     }
 
     /**
@@ -82,7 +96,7 @@ class ProjectDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 3;        
+        $orderByColumn = 5;        
         return $this->builder()
                     ->setTableId('project-table')
                     ->columns($this->getColumns())
@@ -121,6 +135,9 @@ class ProjectDataTable extends DataTable
       
         $columns[] = Column::make('name')->title(trans('cruds.project.fields.name'));
         $columns[] = Column::make('projectLead.name')->title(trans('cruds.project.fields.project_lead'));
+        $columns[] = Column::make('start_date')->title(trans('cruds.project.fields.start_date'));
+        $columns[] = Column::make('end_date')->title(trans('cruds.project.fields.end_date'));
+        $columns[] = Column::make('project_status')->title(trans('cruds.project.fields.project_status'));
         $columns[] = Column::make('created_at')->title(trans('cruds.project.fields.created_at'))->addClass('dt-created_at');
        
         $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');

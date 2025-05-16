@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
@@ -76,7 +75,7 @@ class TaskController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => trans('messages.crud.create_record'),
+                'message' => trans('messages.crud.add_record'),
             ], 200);
             
         } catch (\Exception $e) {
