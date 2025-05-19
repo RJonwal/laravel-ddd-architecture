@@ -17,7 +17,6 @@
                                 <tr>
                                     <th style="width:150px;"> {{ trans('cruds.milestone.fields.project_id') }} </th>
                                     <td> {{ $milestone->project_id ? $milestone->project->name : 'N/A' }} </td>
-                                     
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.milestone.fields.start_date') }} </th>
@@ -26,6 +25,10 @@
                                  <tr>
                                     <th> {{ trans('cruds.milestone.fields.end_date') }} </th>
                                     <td> {!! $milestone->end_date->format(config('constant.date_format.date')) ?? 'N/A' !!} </td>
+                                </tr>
+                                <tr>
+                                    <th> {{ trans('cruds.milestone.fields.status') }} </th>
+                                    <td> {{ config('constant.milestone_status.' . $milestone->status, 'N/A') }} </td>
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.milestone.fields.created_at') }} </th>

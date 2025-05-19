@@ -26,6 +26,16 @@
         <input type="text" class="form-control" id="end_date" name="end_date" value="{{ isset($milestone) ? $milestone->end_date->format(config('constant.date_format.date')) : '' }}" required>
     </div>
 
+    <div class="form-group">
+        <label for="status">{{ trans('cruds.milestone.fields.status') }} <span class="text-danger">*</span></label>
+         <select name="status" id="status" class="form-control select2" >
+            <option value="">Select {{ trans('cruds.milestone.fields.status') }}</option>
+            @foreach (config('constant.milestone_status') as $key => $status)
+                <option value="{{$key}}" {{ isset($milestone) && $milestone->status == $key ? 'selected' : '' }}>{{$status}}</option>
+            @endforeach
+        </select> 
+    </div>
+
 </div>
 <div class="card-footer">
     <button type="submit" class="btn btn-primary submitBtn">{{ trans('global.save') }}</button>

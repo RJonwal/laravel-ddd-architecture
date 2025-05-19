@@ -44,7 +44,7 @@
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.task.fields.status') }} </th>
-                                    <td> {!! $task->status ?? 'N/A' !!} </td>
+                                   <td>{{ config('constant.task_status.' . $task->status, 'N/A') }}</td>
                                 </tr>
                                 <tr>
                                     <th> {{ trans('cruds.task.fields.created_at') }} </th>

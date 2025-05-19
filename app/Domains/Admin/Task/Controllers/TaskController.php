@@ -38,10 +38,10 @@ class TaskController extends Controller
     {
         abort_if(Gate::denies('task_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try {
-            $viewHTML = view('Task::create')->render();
             $users = User::where('id', '!=', 1)->select('id', 'name', 'uuid')->get();
             $projects = Project::select('id', 'name', 'uuid')->get();
-            return response()->json(['success' => true, 'htmlView' => $viewHTML, 'users' => $users, 'projects' => $projects]);
+            $viewHTML = view('Task::create',compact('users','projects'))->render();
+            return response()->json(['success' => true, 'htmlView' => $viewHTML]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
@@ -112,8 +112,7 @@ class TaskController extends Controller
     {
         abort_if(Gate::denies('task_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try {
-            $task = Task::where('uuid',$id)->first();
-            $task->load(['milestone', 'user']);
+            $task = Task::with(['milestone', 'user', 'project'])->where('uuid',$id)->first();
             $milestones = Milestone::where('project_id', $task->project_id)->select('name', 'id', 'uuid')->get();
             $users = User::where('id', '!=', 1)->select('name', 'id', 'uuid')->get();
             $projects = Project::select('name', 'id', 'uuid')->get();
@@ -195,12 +194,13 @@ class TaskController extends Controller
         $projectUuid = $request->input('project_id');
         if (!empty($projectUuid)) {
             $project = Project::where('uuid', $projectUuid)->first();
-            
             if (!$project) {
-                throw new \Exception('Porject not found for given UUID.');
+                return response()->json([
+                'success' => false,
+                'message' => 'Project not found for given UUID.'
+            ], 404);
             }
             $projectId = $project->id;
-
         }
         if (!$projectId) {
             return response()->json([]);
@@ -218,9 +218,10 @@ class TaskController extends Controller
         $milestoneUuid = $request->input('milestone_id');
         $milestone = Milestone::where('uuid', $milestoneUuid)->first();
         if (!$milestone) {
-            return response()->json([]);
+            return response()->json([ 'success' => false,
+                'message' => 'Milestone not found for given UUID.'
+            ], 404);
         }
-
         $tasks = task::where('milestone_id', $milestone->id)->where('parent_task_id' ,NULL)
             ->select('id', 'uuid', 'name')
             ->orderBy('name')

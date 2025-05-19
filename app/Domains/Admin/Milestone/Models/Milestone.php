@@ -27,6 +27,7 @@ class Milestone extends Model
         'project_id',
         'start_date',
         'end_date',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',

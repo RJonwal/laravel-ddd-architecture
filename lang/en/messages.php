@@ -33,6 +33,7 @@ return [
     'approvaltitle'=>'Approval Confirmation',
     'areYouSureRestore'=>'Are you sure you want to restore this record?',
     'error_message'   => 'Something went wrong....please try again later!',
+    'has_tasks_error' => 'Cannot delete this milestone because it has associated tasks.',
     'no_record_found' => 'No Records Found!',
     'suspened'=> "Your account has been suspened!",
     'invalid_email'=>'Invalid Email',

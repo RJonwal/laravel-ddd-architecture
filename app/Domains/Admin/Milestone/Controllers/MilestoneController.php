@@ -37,9 +37,9 @@ class MilestoneController extends Controller
     {
         abort_if(Gate::denies('milestone_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try {
-            $viewHTML = view('Milestone::create')->render();
             $projects = Project::select('id', 'name', 'uuid')->get();
-            return response()->json(['success' => true, 'htmlView' => $viewHTML, 'projects' => $projects]);
+            $viewHTML = view('Milestone::create',compact('projects'))->render();
+            return response()->json(['success' => true, 'htmlView' => $viewHTML]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
@@ -50,13 +50,9 @@ class MilestoneController extends Controller
         abort_if(Gate::denies('milestone_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         DB::beginTransaction();
         try {
-            $input = $request->only('name', 'project_id', 'start_date', 'end_date');
+            $input = $request->only('name', 'project_id', 'start_date', 'end_date','status');
             if (!empty($input['project_id'])) {
                 $project = Project::where('uuid', $input['project_id'])->first();
-                if (!$project) {
-                    throw new \Exception('Project not found for given UUID.');
-                }
-
                 $input['project_id'] = $project->id;
             }
             Milestone::create($input);
@@ -82,12 +78,8 @@ class MilestoneController extends Controller
         abort_if(Gate::denies('milestone_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         if($request->ajax()) {
             try{
-                $milestone = Milestone::where('uuid', $id)->first();
-                if ($milestone->project_id) {
-                    $project = Project::find($milestone->project_id);
-                    $projectName = $project ? $project->name : 'N/A';
-                }
-                $viewHTML = view('Milestone::show', compact('milestone','projectName'))->render();
+                $milestone = Milestone::with('project')->where('uuid', $id)->first();
+                $viewHTML = view('Milestone::show', compact('milestone'))->render();
                 return response()->json(array('success' => true, 'htmlView'=>$viewHTML));
             }
             catch (\Exception $e) {
@@ -115,13 +107,9 @@ class MilestoneController extends Controller
         abort_if(Gate::denies('milestone_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         DB::beginTransaction();
         try {
-            $input = $request->only('name', 'project_id', 'start_date', 'end_date');
+            $input = $request->only('name', 'project_id', 'start_date', 'end_date','status');
             if (!empty($input['project_id'])) {
                 $project = Project::where('uuid', $input['project_id'])->first();
-                if (!$project) {
-                    throw new \Exception('Project not found for given UUID.');
-                }
-
                 $input['project_id'] = $project->id;
             }
             $milestone->update($input);
@@ -153,7 +141,7 @@ class MilestoneController extends Controller
                     return response()->json([
                         'success' => false,
                         'error_type' => 'has_tasks',
-                        'error' => 'Cannot delete this milestone because it has associated tasks.',
+                        'error' => trans('messages.has_tasks_error'),
                     ], 400);
                 }
                 $milestone->delete();
@@ -165,7 +153,6 @@ class MilestoneController extends Controller
                 ];
                 return response()->json($response);
             } catch (\Exception $e) {
-                dd($e);
                 DB::rollBack();
                 return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
             }

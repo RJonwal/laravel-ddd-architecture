@@ -44,7 +44,6 @@ class ProjectController extends Controller
 
             return view('Project::create', compact('users', 'technolgies'));
         } catch (\Exception $e) {
-            // dd($e);
             return abort(500);
         }
     }
@@ -94,7 +93,6 @@ class ProjectController extends Controller
             
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -106,11 +104,10 @@ class ProjectController extends Controller
     {
         abort_if(Gate::denies('project_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try{
-            $project = Project::where('uuid', $id)->first();
+            $project = Project::with('milestones.tasks')->where('uuid', $id)->first();
             return view('Project::show', compact('project'))->render();
         }
         catch (\Exception $e) {
-            dd($e);
             return abort(500);
         }
     }
@@ -127,7 +124,6 @@ class ProjectController extends Controller
 
             return view('Project::edit', compact('project', 'technolgies', 'users'))->render();
         } catch (\Exception $e) {
-            // dd($e);
             return abort(500);
         }
     }
@@ -186,7 +182,6 @@ class ProjectController extends Controller
             
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -272,7 +267,16 @@ class ProjectController extends Controller
             return response()->json($response);
         } catch(Throwable $th){
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+        }
+    }
 
+    public function projectMilestoneTask($id){
+        try {
+            $project = Project::with('milestones.tasks')->where('uuid', $id)->first();
+            return view('Project::project_milestone', compact('project'))->render();
+        }
+        catch(Throwable $th){
+            return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
 }

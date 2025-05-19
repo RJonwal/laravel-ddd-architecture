@@ -33,6 +33,18 @@ class MilestoneUpdateRequest extends FormRequest
                 'nullable',
                 'date'
             ],
+            'status' => ['required','in:'.implode(',',array_keys(config('constant.milestone_status')))],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'Milestone name',
+            'project_id' => 'Project name',
+            'start_date' => 'Start date',
+            'end_date' => 'End date',
+            'status' => 'Status',
         ];
     }
 }

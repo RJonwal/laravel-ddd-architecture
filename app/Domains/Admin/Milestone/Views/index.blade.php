@@ -82,13 +82,6 @@ $(document).ready(function(e){
                         selectOnClose: false
                     });
 
-                    let projectSelect = $('#project_id');
-                    projectSelect.empty();  // Clear existing options
-                    projectSelect.append('<option value="">Select Project</option>'); // Default option
-                    $.each(response.projects, function(index, project) {
-                        projectSelect.append('<option value="' + project.uuid + '">' + project.name + '</option>');
-                    });
-
                     $('#start_date').datepicker({
                         format: 'dd-mm-yyyy',
                         autoclose: true,
@@ -155,11 +148,7 @@ $(document).ready(function(e){
                         $("input[name='" + key + "']").after(errorLabelTitle);
                         $("textarea[name='" + key + "']").after(errorLabelTitle);
 
-                        if (key === 'milestone_type') {
-                            $("#milestone_type").next('.select2-container').after(errorLabelTitle);
-                        } else {
-                            $("select[name='" + key + "']").after(errorLabelTitle);
-                        }
+                         $("#"+key).siblings('.select2').after(errorLabelTitle);
                     });
                 }
             },
@@ -284,11 +273,7 @@ $(document).ready(function(e){
                         $("input[name='" + key + "']").after(errorLabelTitle);
                         $("textarea[name='" + key + "']").after(errorLabelTitle);
 
-                        if (key === 'milestone_type') {
-                            $("#milestone_type").next('.select2-container').after(errorLabelTitle);
-                        } else {
-                            $("select[name='" + key + "']").after(errorLabelTitle);
-                        }
+                        $("#"+key).siblings('.select2').after(errorLabelTitle);
                     });
                 }
             },

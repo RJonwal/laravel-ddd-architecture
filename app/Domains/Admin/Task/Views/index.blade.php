@@ -56,9 +56,88 @@
             if(buttonCount <= 1){
                 $('.paging_simple_numbers').addClass('d-none');
             }
-        })
-    })
+        });
+        $(document).on('shown.bs.modal', '#AddTask, #editTask', function () {
+            const $modal = $(this);
+            $modal.find('.select2').each(function () {
+                const $select = $(this);
+                console.log($select.val());
+                // Prevent double initialization
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.select2('destroy');
+                }
 
+                $select.select2({
+                    width: '100%',
+                    dropdownParent: $modal,
+                    selectOnClose: false,
+                }).on('select2:open', function () {
+                    const dropdown = $('.select2-container--open .select2-dropdown');
+                    const width = $select.outerWidth();
+                    if (dropdown.length) {
+                        dropdown.css({
+                            'width': width + 'px',
+                            'max-width': '100%',
+                            'box-sizing': 'border-box',
+                            'position': 'absolute'
+                        });
+                    }
+                });
+            });
+        });
+    });
+    $(document).on("change", "#project_id", function() {
+        let projectId = $(this).val();
+        $('#milestone_id').html('<option value="">Loading...</option>');
+        $('#parent_task_id').html('<option value="">Loading...</option>');
+        if (projectId) {
+            $.ajax({
+                url: '{{ route("tasks.milestones.byProject") }}',
+                type: 'GET',
+                data: { project_id: projectId },
+                success: function (data) {
+                    $('#milestone_id').html('<option value="">Select Milestone</option>');
+                     $('#parent_task_id').html('<option value="">Select Task</option>');
+                    $.each(data, function (key, milestone) {
+                        $('#milestone_id').append('<option value="' + milestone.uuid + '">' + milestone.name + '</option>');
+                    });
+                },
+                error: function () {
+                    $('#milestone_id').html('<option value="">Error loading milestones</option>');
+                }
+            });
+        } else {
+            $('#milestone_id').html('<option value="">Select Milestone</option>');
+            $('#parent_task_id').html('<option value="">Select Task</option>');
+        }
+    });
+
+    $(document).on("change", "#milestone_id", function() 
+    {
+        let milestoneId = $(this).val();
+        $('#parent_task_id').html('<option value="">Loading...</option>');
+        if (milestoneId) {
+            $.ajax({
+                url: "{{ route('tasks.byMilestones') }}",
+                type: 'GET',
+                data: { milestone_id: milestoneId },
+                success: function (data) {
+                    $('#parent_task_id').html('<option value="">Select Task</option>');
+                    if (data.length > 0) {
+                        $.each(data, function (key, task) {
+                            $('#parent_task_id').append('<option value="' + task.uuid + '">' + task.name + '</option>');
+                        });
+                    }
+                },
+                error: function () {
+                    $('#parent_task_id').html('<option value="">Error loading milestones</option>');
+                }
+            });
+        } else {
+            $('#parent_task_id').html('<option value="">Select Task</option>');
+        }
+    });
+                        
     @can('task_create')
         $(document).on("click", ".btnAddTask", function() {
             $('.loader-div').show();
@@ -72,79 +151,8 @@
                     $('.loader-div').hide();
                     if(response.success) {
                         $('.popup_render_div').html(response.htmlView);
-
-                        // Populate the assigned_to select with users dynamically
-                        let assignedToSelect = $('#assigned_to');
-                        assignedToSelect.empty();  // Clear existing options
-                        assignedToSelect.append('<option value="">Select Assigned User</option>'); // Default option
-                        $.each(response.users, function(index, user) {
-                            assignedToSelect.append('<option value="' + user.uuid + '">' + user.name + '</option>');
-                        });
-
-                        let projectSelect = $('#project_id');
-                        projectSelect.empty();  // Clear existing options
-                        projectSelect.append('<option value="">Select Project</option>'); // Default option
-                        $.each(response.projects, function(index, project) {
-                            projectSelect.append('<option value="' + project.uuid + '">' + project.name + '</option>');
-                        });
-
-                        
-                        $('.select2').select2({
-                            width: '100%',
-                            dropdownParent: $('#AddTask'),
-                            selectOnClose: false
-                        });
                         
                         $('#AddTask').modal('show');
-
-                        $('#project_id').on('change', function () {
-                            let projectId = $(this).val();
-                            $('#milestone_id').html('<option value="">Loading...</option>');
-
-                            if (projectId) {
-                                $.ajax({
-                                    url: '{{ route("tasks.milestones.byProject") }}',
-                                    type: 'GET',
-                                    data: { project_id: projectId },
-                                    success: function (data) {
-                                        $('#milestone_id').html('<option value="">Select Milestone</option>');
-                                        $.each(data, function (key, milestone) {
-                                            $('#milestone_id').append('<option value="' + milestone.uuid + '">' + milestone.name + '</option>');
-                                        });
-                                    },
-                                    error: function () {
-                                        $('#milestone_id').html('<option value="">Error loading milestones</option>');
-                                    }
-                                });
-                            } else {
-                                $('#milestone_id').html('<option value="">Select Milestone</option>');
-                            }
-                        });
-
-                        $('#milestone_id').on('change', function () {
-                            let milestoneId = $(this).val();
-                            $('#parent_task_id').html('<option value="">Loading...</option>');
-                            if (milestoneId) {
-                                $.ajax({
-                                    url: "{{ route('tasks.byMilestones') }}",
-                                    type: 'GET',
-                                    data: { milestone_id: milestoneId },
-                                    success: function (data) {
-                                        $('#parent_task_id').html('<option value="">Select Task</option>');
-                                        if (data.length > 0) {
-                                            $.each(data, function (key, task) {
-                                                $('#parent_task_id').append('<option value="' + task.uuid + '">' + task.name + '</option>');
-                                            });
-                                        }
-                                    },
-                                    error: function () {
-                                        $('#parent_task_id').html('<option value="">Error loading milestones</option>');
-                                    }
-                                });
-                            } else {
-                                $('#parent_task_id').html('<option value="">Select Task</option>');
-                            }
-                        });
                     }
                     else {
                         toasterAlert('error',response.error);
@@ -173,7 +181,6 @@
                 data: formData,
                 dataType: 'json',
                 success: function (response) {
-                    console.log(response);
                     if(response.success) {
                         $('#AddTask').modal('hide');
                         $('#task-table').DataTable().ajax.reload(null, false);
@@ -184,7 +191,6 @@
                     }
                 },
                 error: function (response) {
-                    console.log(response);
                     if(response.responseJSON.error_type == 'something_error'){
                         toasterAlert('error',response.responseJSON.error);
                     } else {
@@ -195,11 +201,7 @@
                             $("input[name='" + key + "']").after(errorLabelTitle);
                             $("textarea[name='" + key + "']").after(errorLabelTitle);
 
-                            if (key === 'task_type') {
-                                $("#task_type").next('.select2-container').after(errorLabelTitle);
-                            } else {
-                                $("select[name='" + key + "']").after(errorLabelTitle);
-                            }
+                             $("#"+key).siblings('.select2').after(errorLabelTitle);
                         });
                     }
                 },
@@ -251,63 +253,6 @@
                     if(response.success) {
                         $('.popup_render_div').html(response.htmlView);
                         $('#editTask').modal('show');
-
-                        $('.select2').select2({
-                            width: '100%',
-                            dropdownParent: $('#editTask'),
-                            selectOnClose: false
-                        });
-
-                         $('#project_id').on('change', function () {
-                            let projectId = $(this).val();
-                            $('#milestone_id').html('<option value="">Loading...</option>');
-                            $('#parent_task_id').html('<option value="">Loading...</option>');
-                            if (projectId) {
-                                $.ajax({
-                                    url: '{{ route("tasks.milestones.byProject") }}',
-                                    type: 'GET',
-                                    data: { project_id: projectId },
-                                    success: function (data) {
-                                        $('#milestone_id').html('<option value="">Select Milestone</option>');
-                                        $('#parent_task_id').html('<option value="">Select Task</option>');
-                                        $.each(data, function (key, milestone) {
-                                            $('#milestone_id').append('<option value="' + milestone.uuid + '">' + milestone.name + '</option>');
-                                        });
-                                    },
-                                    error: function () {
-                                        $('#milestone_id').html('<option value="">Error loading milestones</option>');
-                                    }
-                                });
-                            } else {
-                                $('#milestone_id').html('<option value="">Select Milestone</option>');
-                                $('#parent_task_id').html('<option value="">Select Task</option>');
-                            }
-                        });
-                          $('#milestone_id').on('change', function () {
-                            let milestoneId = $(this).val();
-                            $('#parent_task_id').html('<option value="">Loading...</option>');
-                            console.log(milestoneId);
-                            if (milestoneId) {
-                                $.ajax({
-                                    url: "{{ route('tasks.byMilestones') }}",
-                                    type: 'GET',
-                                    data: { milestone_id: milestoneId },
-                                    success: function (data) {
-                                        $('#parent_task_id').html('<option value="">Select Task</option>');
-                                        if (data.length > 0) {
-                                            $.each(data, function (key, task) {
-                                                $('#parent_task_id').append('<option value="' + task.uuid + '">' + task.name + '</option>');
-                                            });
-                                        }
-                                    },
-                                    error: function () {
-                                        $('#parent_task_id').html('<option value="">Error loading milestones</option>');
-                                    }
-                                });
-                            } else {
-                                $('#parent_task_id').html('<option value="">Select Task</option>');
-                            }
-                        });
                     }
                     else {
                         toasterAlert('error',response.error);
@@ -357,11 +302,7 @@
                             $("input[name='" + key + "']").after(errorLabelTitle);
                             $("textarea[name='" + key + "']").after(errorLabelTitle);
 
-                            if (key === 'task_type') {
-                                $("#task_type").next('.select2-container').after(errorLabelTitle);
-                            } else {
-                                $("select[name='" + key + "']").after(errorLabelTitle);
-                            }
+                             $("#"+key).siblings('.select2').after(errorLabelTitle);
                         });
                     }
                 },

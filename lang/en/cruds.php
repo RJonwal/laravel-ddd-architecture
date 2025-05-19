@@ -126,6 +126,7 @@ return [
             'project_id'        => 'Project',
             'start_date'        => 'Start Date',
             'end_date'          => 'End Date',
+            'status'            => 'Status',
             'created_at'        => 'Created at',
             'updated_at'        => 'Updated at',
             'deleted_at'        => 'Deleted at',

@@ -34,4 +34,19 @@ class TaskUpdateRequest extends FormRequest
             'status' => ['required','in:'.implode(',',array_keys(config('constant.task_status')))]
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'Task name',
+            'project_id' => 'Project name',
+            'milestone_id' => 'Milestone name',
+            'parent_task_id' => 'Parent Task',
+            'user_id'   => 'User',
+            'description' => 'Description',
+            'estimated_time' => 'Estimated Time',
+            'priority' => 'Priority',
+            'status' => 'Status',
+        ];
+    }
 }

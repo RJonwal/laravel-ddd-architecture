@@ -43,6 +43,18 @@ class MilestoneDataTable extends DataTable
             ->editColumn('end_date', function($record){
                 return $record->end_date->format(config('constant.date_format.date'));
             })
+            ->editColumn('status', function($record) {
+                $status = $record->status;
+                $statusText = $status ? config('constant.milestone_status.' . $status, '') : '';
+
+                $colorClass = match($status) {
+                    'initial'    => 'badge bg-danger',
+                    'completed'  => 'badge bg-success',
+                    'in_progress' => 'badge bg-warning text-dark',
+                    'not_started' => 'badge bg-secondary',
+                };
+                return '<span class="' . $colorClass . '">' . $statusText . '</span>';
+            })
 
             ->addColumn('action', function($record){
                 $actionHtml = '';
@@ -72,7 +84,7 @@ class MilestoneDataTable extends DataTable
                 $searchDateFormat = config('constant.search_date_format.date_time');
                 $query->whereRaw("DATE_FORMAT(created_at,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->rawColumns(['action']);
+            ->rawColumns(['action','status']);
     }
 
     /**
@@ -88,7 +100,7 @@ class MilestoneDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 5;        
+        $orderByColumn = 6;        
         return $this->builder()
                     ->setTableId('milestone-table')
                     ->columns($this->getColumns())
@@ -129,8 +141,8 @@ class MilestoneDataTable extends DataTable
         $columns[] = Column::make('project.name')->title(trans('cruds.milestone.fields.project_id'));
         $columns[] = Column::make('start_date')->title(trans('cruds.milestone.fields.start_date'));
         $columns[] = Column::make('end_date')->title(trans('cruds.milestone.fields.end_date'));
+        $columns[] = Column::make('status')->title(trans('cruds.milestone.fields.status'));
         $columns[] = Column::make('created_at')->title(trans('cruds.milestone.fields.created_at'))->addClass('dt-created_at');
-       
         $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');
 
         return $columns;

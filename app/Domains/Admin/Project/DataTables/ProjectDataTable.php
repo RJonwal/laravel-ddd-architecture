@@ -45,12 +45,20 @@ class ProjectDataTable extends DataTable
             })
 
             ->editColumn('project_status', function($record) {
-                return $record->project_status ? config('constant.project_status')[$record->project_status] : '';
+                $status = $record->project_status;
+                $statusText = $status ? config('constant.project_status')[$record->project_status] : '';
+                $colorClass = match($status) {
+                    'start'    => 'badge bg-danger',
+                    'complete'  => 'badge bg-success',
+                    'progress' => 'badge bg-warning text-dark',
+                    'hold'      => 'badge bg-secondary',
+                };
+                return '<span class="' . $colorClass . '">' . $statusText . '</span>';
             })
-
+            
             ->addColumn('action', function($record){
                 $actionHtml = '';
-               if (Gate::check('project_view')) {
+                if (Gate::check('project_view')) {
                     $actionHtml .= '<a href="'.route('projects.show',$record->uuid).'" class="btn btn-outline-info btn-sm" title="Show"> <i class="ri-eye-line"></i> </a>';
                 }
 
@@ -60,6 +68,10 @@ class ProjectDataTable extends DataTable
                 
                 if (Gate::check('project_delete')) {
                     $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteProjectBtn" data-href="'.route('projects.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
+                }
+
+                if (Gate::check('project_view')) {
+                    $actionHtml .= '<a href="'.route('projects.milestones.tasks',$record->uuid).'" class="btn btn-outline-info btn-sm" title="Show"> <i class=" ri-calendar-check-line"></i> </a>';
                 }
                 return $actionHtml;
             })
@@ -80,7 +92,7 @@ class ProjectDataTable extends DataTable
                 $query->whereRaw("DATE_FORMAT(end_date,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
             })
             
-            ->rawColumns(['action']);
+            ->rawColumns(['action','project_status']);
     }
 
     /**
@@ -96,7 +108,7 @@ class ProjectDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 5;        
+        $orderByColumn = 6;        
         return $this->builder()
                     ->setTableId('project-table')
                     ->columns($this->getColumns())
@@ -140,7 +152,7 @@ class ProjectDataTable extends DataTable
         $columns[] = Column::make('project_status')->title(trans('cruds.project.fields.project_status'));
         $columns[] = Column::make('created_at')->title(trans('cruds.project.fields.created_at'))->addClass('dt-created_at');
        
-        $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');
+        $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(200)->addClass('text-center action-col');
 
         return $columns;
     }

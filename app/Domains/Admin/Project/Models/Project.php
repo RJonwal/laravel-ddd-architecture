@@ -5,6 +5,7 @@ namespace App\Domains\Admin\Project\Models;
 use App\Domains\Admin\Master\Upload\Models\Uploads;
 use App\Domains\Admin\Technology\Models\Technology;
 use App\Domains\Admin\User\Models\User;
+use App\Domains\Admin\Milestone\Models\Milestone;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -91,4 +92,8 @@ class Project extends Model
         return $this->morphMany(Uploads::class, 'uploadsable');
     }
 
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class);
+    }
 }

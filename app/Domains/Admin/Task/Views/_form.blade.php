@@ -28,7 +28,7 @@
 
     @if(!isset($task) || (isset($task) && $task->parent_task_id !== null))
     <div class="form-group">
-        <label for="parent_task_id">{{ trans('cruds.task.title') }} <span class="text-danger">*</span></label>
+        <label for="parent_task_id">{{ trans('cruds.task.title') }}</label>
         <select name="parent_task_id" id="parent_task_id" class="form-control select2" >
             <option value="">Select {{ trans('cruds.task.title') }}</option>
             <!-- tasks will show here dynamically -->
@@ -63,7 +63,7 @@
     </div>
 
     <div class="form-group">
-        <label for="description">{{ trans('cruds.task.fields.description') }} <span class="text-danger">*</span></label>
+        <label for="description">{{ trans('cruds.task.fields.description') }}</label>
         <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ isset($task) ? $task->description : '' }}</textarea>
     </div>
 

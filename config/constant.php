@@ -84,4 +84,10 @@ return [
         'in_progress'   => 'In Progress',
         'completed'     => 'Completed',
     ],
+    'milestone_status' => [
+        'initial'       => 'Initial',
+        'in_progress'   => 'In Progress',
+        'completed'     => 'Completed',
+        'not_started'   => 'Not started',
+    ],
 ];
