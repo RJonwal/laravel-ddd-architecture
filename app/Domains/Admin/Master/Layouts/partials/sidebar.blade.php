@@ -82,6 +82,16 @@
             </li>
             @endcan
 
+            {{-- Daily Task log Menu --}}
+            @can('daily_task_access')
+            <li class="side-nav-item {{ request()->routeIs('daily-tasks.*') ? 'menuitem-active' : '' }}">
+                <a href="{{ route('daily-tasks.index') }}" class="side-nav-link {{ request()->routeIs('daily-tasks.*') ? 'active' : '' }}">
+                    <i class="ri-task-line"></i>
+                    <span>@lang('cruds.menus.task')</span>
+                </a>
+            </li>
+            @endcan
+
             {{-- Rating Menu --}}
             {{-- @can('rating_access')
             <li class="side-nav-item {{ request()->is('user-ratings') ? 'menuitem-active' : ''}}">

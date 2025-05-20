@@ -16,7 +16,7 @@
                         <i class="ri-group-2-line widget-icon"></i>
                     </div>
                     <h6 class="text-uppercase mt-0" title="Customers">@lang('cruds.user.title')</h6>
-                    <h2 class="my-2">{{$userCount}}</h2>
+                    <h2 class="my-2">{{ $userCount }}</h2>
                 </a>
             </div>
         </div>

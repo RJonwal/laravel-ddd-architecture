@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Domains\Admin\Milestone\Models;
+namespace App\Domains\Admin\DailyTask\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Domains\Admin\Milestone\Models\Milestone;
+use App\Domains\Admin\User\Models\User;
 use App\Domains\Admin\Project\Models\Project;
-use App\Domains\Admin\Task\Models\Task;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Milestone extends Model
+class DailyTask extends Model
 {
     use SoftDeletes;
     protected $casts = [
@@ -27,8 +28,11 @@ class Milestone extends Model
         'name',
         'description',
         'project_id',
-        'start_date',
-        'end_date',
+        'milestone_id',
+        'parent_daily_task_id',
+        'user_id',
+        'estimated_time',
+        'priority',
         'status',
         'created_at',
         'updated_at',
@@ -38,7 +42,7 @@ class Milestone extends Model
     protected static function boot ()
     {
         parent::boot();
-        static::creating(function(Milestone $model) {
+        static::creating(function(DailyTask $model) {
             $model->uuid = Str::uuid();
         });
     }
@@ -48,8 +52,14 @@ class Milestone extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function tasks()
+    public function milestone()
     {
-        return $this->hasMany(Task::class);
+        return $this->belongsTo(Milestone::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

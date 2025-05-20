@@ -7,9 +7,11 @@ use Illuminate\Support\Str;
 use App\Domains\Admin\Milestone\Models\Milestone;
 use App\Domains\Admin\User\Models\User;
 use App\Domains\Admin\Project\Models\Project;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
+    use SoftDeletes;
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',

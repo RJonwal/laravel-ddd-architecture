@@ -5,7 +5,7 @@ use App\Domains\Admin\Auth\Controllers\LoginController;
 use App\Domains\Admin\Auth\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['web', 'PreventBackHistory', 'guest']], function () {
+Route::group(['middleware' => ['PreventBackHistory', 'guest']], function () {
     Route::get('login', [LoginController::class, 'login'])->name('login');
     Route::post('login', [LoginController::class, 'submitLogin'])->name('login.submit');
 
@@ -17,4 +17,4 @@ Route::group(['middleware' => ['web', 'PreventBackHistory', 'guest']], function 
 });
 
 
-Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout')->middleware(['web', 'auth', 'PreventBackHistory']);
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout')->middleware(['auth', 'PreventBackHistory']);
