@@ -13,20 +13,6 @@ use Illuminate\Support\Str;
 
 class UserDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     */
-
-    private $authUser;
-
-    public function __construct()
-    {
-        $this->authUser = auth()->user();
-    }
-
-
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query->select('users.*')))

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('global.show') }} {{ trans('cruds.task.title_singular') }}</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">@lang('global.show') @lang('cruds.task.title_singular')</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,43 +11,43 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.fields.name') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.name') </th>
                                     <td> {{ $task->name ?? 'N/A' }} </td>
                                 </tr>
                                  <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.fields.description') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.description') </th>
                                     <td> {{ $task->description ?? 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.fields.project_id') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.project_id') </th>
                                     <td> {{ $task->project_id ? $task->project->name : 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.fields.milestone_id') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.milestone_id')  </th>
                                     <td> {{ $task->milestone_id ? $task->milestone->name : 'N/A' }} </td>
                                 </tr>
                                  <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.title_singular') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.title_singular')  </th>
                                     <td> {{ $parentName ?? '-' }} </td>
                                 </tr>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.task.fields.assigned_to') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.assigned_to')  </th>
                                     <td> {{ $task->user_id ? $task->user->name : 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.task.fields.estimated_time') }} </th>
+                                    <th> @lang('cruds.task.fields.estimated_time')  </th>
                                     <td> {!! $task->estimated_time ?? 'N/A' !!} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.task.fields.priority') }} </th>
+                                    <th> @lang('cruds.task.fields.priority')  </th>
                                     <td> {!! $task->priority ?? 'N/A' !!} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.task.fields.status') }} </th>
+                                    <th> @lang('cruds.task.fields.status')  </th>
                                    <td>{{ config('constant.task_status.' . $task->status, 'N/A') }}</td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.task.fields.created_at') }} </th>
+                                    <th> @lang('cruds.task.fields.created_at') </th>
                                     <td> {{ $task->created_at->format(config('constant.date_format.date_time')) }} </td>
                                 </tr>
                             </tbody>

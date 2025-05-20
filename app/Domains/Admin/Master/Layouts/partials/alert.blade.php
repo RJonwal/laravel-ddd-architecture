@@ -83,24 +83,4 @@ const swalWithBootstrapButtons = Swal.mixin({
             confirmButtonColor: "#04a9f5"
         });
     }
-
-    function btnloader(type='show') {
-        if(type === 'show'){
-            $('.btn_loader').removeClass('d-none');
-        } else {
-            $('.btn_loader').addClass('d-none');
-        }
-    }
-
-    $(document).on('click', '.toggle-password', function () {        
-        var passwordInput = $(this).prev('input');  
-        console.log(passwordInput);      
-        if (passwordInput.attr('type') === 'password') {
-            passwordInput.attr('type', 'text');
-            $(this).removeClass('show-password');
-        } else {
-            passwordInput.attr('type', 'password');
-            $(this).addClass('show-password');
-        }
-    });
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Admin\Dashboard\Controllers;
 
+use App\Domains\Admin\Project\Models\Project;
 use App\Domains\Admin\User\Models\User;
 use App\Http\Controllers\Controller;
 use App\Rules\MatchOldPassword;
@@ -18,8 +19,9 @@ class DashboardController extends Controller
             $query->where('id',config('constant.roles.user'));
         })->count();
 
-        
-        return view('Dashboard::index',compact('userCount'));
+        $projctCount = Project::count();
+
+        return view('Dashboard::index',compact('userCount', 'projctCount'));
     }
 
 
@@ -67,15 +69,15 @@ class DashboardController extends Controller
                     'success' => true,
                     'profile_image' => $user->profile_image_url,
                     'auth_name' => $user->name,
-                    'message' => trans('messages.crud.update_record'),
+                    'message' => __('messages.crud.update_record'),
                 ];
                 return response()->json($data, 200);
             } catch (\Exception $e) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => __('messages.error_message')], 400 );
             }
         }
-        return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+        return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => __('messages.error_message')], 400 );
     }
 
     public function updateChangePassword(Request $request){
@@ -93,15 +95,15 @@ class DashboardController extends Controller
                 DB::commit();
                 $data = [
                     'success' => true,
-                    'message' => trans('passwords.reset'),
+                    'message' => __('passwords.reset'),
                 ];
                 return response()->json($data, 200);
             } catch (\Exception $e) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => __('messages.error_message')], 400 );
             }
         }
-        return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+        return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => __('messages.error_message')], 400 );
     }
 
     public function removeProfileImage(Request $request){
@@ -119,15 +121,15 @@ class DashboardController extends Controller
                         'success' => true,
                         'profile_image' => asset(config('constant.default.user_icon')),
                         'auth_name' => $user->name,
-                        'message' => trans('messages.crud.profile.remove_image'),
+                        'message' => __('messages.crud.profile.remove_image'),
                     ];
                     return response()->json($data);
                 } else {
-                    return response()->json(['success' => false, 'error' => trans('messages.crud.profile.remove_image_not_found')], 400 );
+                    return response()->json(['success' => false, 'error' => __('messages.crud.profile.remove_image_not_found')], 400 );
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+                return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => __('messages.error_message')], 400 );
             }
         } 
     

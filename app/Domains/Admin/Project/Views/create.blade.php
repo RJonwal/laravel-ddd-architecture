@@ -10,14 +10,12 @@
 @section('main-content')
 <div class="card">
     <div class="card-header card-header-primary">
-        <h4 class="card-title">
-        {{ trans('global.add') }} {{ trans('cruds.project.title_singular') }}
-        </h4>
+        <h4 class="card-title">@lang('global.add')  @lang('cruds.project.title_singular')</h4>
     </div>
     <div class="card-body">
         <form method="POST" id="projectForm" data-url="{{route('projects.store')}}" enctype="multipart/form-data">
             @csrf
-            @include('Project::_form')     
+            @include('Project::partials.form')     
         </form>
     </div>
 </div>

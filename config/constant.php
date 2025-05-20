@@ -29,20 +29,21 @@ return [
     ],
 
     'date_format' => [
-        'date' => 'd-m-Y',
-        'time' => 'H:i',
-        'date_time' => 'd-m-Y H:i:s'
+        'date' => 'd M Y',
+        'time' => 'h:i A',
+        'date_time' => 'd M Y, h:i A'
     ],
 
     'search_date_format' => [ //$whereFormat = '%m/%d/%Y %h:%i %p';
-        'date' => '%d-%m-%Y',
-        'time' => '%H:%i',
-        'date_time' => '%d-%m-%Y %H:%i:%s'
+        'date' => '%d %b %Y',
+        'time' => '%h:%i %p',
+        'date_time' => '%d %b %Y, %h:%i %p'
     ],
 
-    'js_date_format' => [ //$whereFormat = '%m/%d/%Y %h:%i %p';
-        'date' => 'dd-mm-yy',
-        'time' => 'H:i',
+    'js_date_format' => [
+        'date' => 'dd M yyyy',           // e.g., 19 May 2025
+        'time' => 'hh:ii A',             // Requires timepicker support
+        'date_time' => 'dd M yyyy, hh:ii A'
     ],
 
     'technology_types' => [

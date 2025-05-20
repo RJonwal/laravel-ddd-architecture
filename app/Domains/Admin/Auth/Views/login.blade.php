@@ -1,5 +1,5 @@
 @extends('Layouts::auth')
-@section('title', trans('global.login'))
+@section('title', __('global.login'))
 @section('main-content')
 
 <div class="l_content">
@@ -17,7 +17,7 @@
                    </div>
                     <h2 class="text-center">@lang('global.login')</h2>
                     <p class="text-center">Welcome to {{ getSetting('site_title') ? getSetting('site_title') : config('app.name') }}!</p>
-                    <form method="POST" id="loginForm">
+                    <form id="loginForm">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="form-group">
                             <label for="emailaddress" class="form-label">@lang('global.login_email')</label>
@@ -38,7 +38,7 @@
                                 <input type="checkbox" class="form-check-input" id="checkbox-signin">
                                 <label class="form-check-label" for="checkbox-signin">@lang('global.remember_me')</label>
                             </div>
-                            {{-- <a href="{{ route('admin.forgot.password') }}" class="forgot-text">@lang('global.forgot_password')</a> --}}
+                            <a href="{{ route('forgot.password') }}" class="forgot-text">@lang('global.forgot_password')</a>
                         </div>
                         <div class="text-start btn-block">
                             <button class="btn btn-soft-primary w-100" type="submit">
@@ -60,25 +60,13 @@
 
 <script>
 
-    // Password field hide/show functiolity
-    /* $(document).on('click', '.toggle-password', function () {        
-        var passwordInput = $(this).prev('input');  
-        console.log(passwordInput);      
-        if (passwordInput.attr('type') === 'password') {
-            passwordInput.attr('type', 'text');
-            $(this).removeClass('show-password');
-        } else {
-            passwordInput.attr('type', 'password');
-            $(this).addClass('show-password');
-        }
-    }); */
-
     // Login Ajax
     $(document).on('submit', '#loginForm', function(e){
         e.preventDefault();
         let formData = new FormData(this);
 
-        $("button[type='submit']").attr('disabled', true);
+        $('.validation-error-block').remove();
+
         btnloader('show');
         $.ajax({
             type: 'post',
@@ -104,7 +92,6 @@
             },
             complete: function(response, textStatus, jqXHR){
                 btnloader('hide');
-                $("button[type='submit']").attr('disabled', false);
             }
         });
     });

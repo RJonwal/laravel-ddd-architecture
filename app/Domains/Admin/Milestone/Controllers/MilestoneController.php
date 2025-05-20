@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
 class MilestoneController extends Controller
@@ -26,9 +25,6 @@ class MilestoneController extends Controller
         try {
             return $dataTable->render('Milestone::index');
         } catch (\Exception $e) {
-             Log::error('Milestone Index Error: '.$e->getMessage(), [
-                'exception' => $e
-            ]);
             abort(500);
         }
     }

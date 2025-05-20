@@ -15,7 +15,7 @@
                     @if($project && $project->milestones->count() > 0)
                         <div class="card-block bg-c-blue">
                             <div class="counter text-center">
-                                <h3 class="text-white m-0">{{ $project->name ?? '' }}'s {{ trans('cruds.milestone.title') }}</h3>
+                                <h3 class="text-white m-0">{{ $project->name ?? '' }}'s @lang('cruds.milestone.title')</h3>
                             </div>
                         </div>
                         @foreach($project->milestones as $milestone)
@@ -41,11 +41,11 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>{{ trans('cruds.task.fields.name') }}</th>
-                                            <th>{{ trans('cruds.task.fields.assigned_to') }}</th>
-                                            <th>{{ trans('cruds.task.fields.estimated_time') }}</th>
-                                            <th>{{ trans('cruds.task.fields.priority') }}</th>
-                                            <th>{{ trans('cruds.task.fields.status') }}</th>
+                                            <th>@lang('cruds.task.fields.name')</th>
+                                            <th>@lang('cruds.task.fields.assigned_to')</th>
+                                            <th>@lang('cruds.task.fields.estimated_time')</th>
+                                            <th>@lang('cruds.task.fields.priority')</th>
+                                            <th>@lang('cruds.task.fields.status')</th>
                                         </tr>
                                     </thead>
                                     <tbody>

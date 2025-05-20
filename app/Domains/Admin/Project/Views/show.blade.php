@@ -23,37 +23,37 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h5>{{ trans('cruds.project.project_details') }}</h5>
+                        <h5>@lang('cruds.project.project_details')</h5>
                     </div>
                     <div class="card-block task-details">
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td> <p class="details-heading">{{ trans('cruds.project.fields.name') }} :</p></td>
+                                    <td> <p class="details-heading">@lang('cruds.project.fields.name') :</p></td>
                                     <td class="text-right"><p class="details-value">{{ $project->name ?? '' }} </p></td>
                                 </tr>
                                 <tr>
-                                    <td><p class="details-heading">{{ trans('cruds.project.fields.start_date') }}:</p></td>
+                                    <td><p class="details-heading">@lang('cruds.project.fields.start_date') :</p></td>
                                     <td class="text-right"><p class="details-value">{{ (isset($project) && isset($project->start_date)) ? $project->start_date->format('d-M-Y') : '' }}</p></td>
                                 </tr>
                                 <tr>
-                                    <td><p class="details-heading">{{ trans('cruds.project.fields.end_date') }}:</p></td>
+                                    <td><p class="details-heading">@lang('cruds.project.fields.end_date') :</p></td>
                                     <td class="text-right"><p class="details-value">{{ (isset($project) && isset($project->end_date)) ? $project->end_date->format('d-M-Y') : '' }}</p></td>
                                 </tr>
                                 <tr>
-                                    <td><p class="details-heading">{{ trans('cruds.project.fields.project_lead') }}:</p></td>
+                                    <td><p class="details-heading">@lang('cruds.project.fields.project_lead') :</p></td>
                                     <td class="text-right"><p class="details-value">{{(($project->projectLead != NULL) ? $project->projectLead->name : '')}}</p></td>
                                 </tr>
                                 <tr>
-                                    <td><p class="details-heading">{{ trans('cruds.project.fields.created_at') }}:</p></td>
+                                    <td><p class="details-heading">@lang('cruds.project.fields.created_at') :</p></td>
                                     <td class="text-right"><p class="details-value">{{ $project->created_at->format(config('constant.date_format.date_time')) ?? '' }}</p></td>
                                 </tr>
                                 <tr>
-                                    <td><p class="details-heading">{{ trans('cruds.project.fields.created_by') }}:</p></td>
+                                    <td><p class="details-heading">@lang('cruds.project.fields.created_by') :</p></td>
                                     <td class="text-right"><p class="details-value">{{(($project->createdBy != NULL) ? $project->createdBy->name : '')}}</p></td>
                                 </tr>
                                 <tr>
-                                    <td> <p class="details-heading">{{ trans('cruds.project.fields.project_status') }}:</p></td>
+                                    <td> <p class="details-heading">@lang('cruds.project.fields.project_status') :</p></td>
                                     <td class="text-right"><p class="details-value">{{ config('constant.project_status')[$project->project_status] ?? '' }}</p></td>
                                 </tr>
                             </tbody>
@@ -67,7 +67,7 @@
                     <div class="col-xl-6 col-lg-12 task-detail-right">
                         <div class="card">
                             <div class="card-header">
-                                <h5>{{ trans('cruds.project.fields.assign_developers') }}</h5>
+                                <h5>@lang('cruds.project.fields.assign_developers')</h5>
                             </div>
                             <div class="card-block">
                                 <div class="taskboard-right-revision user-box mt-3 ms-3 assign-user">
@@ -95,7 +95,7 @@
                     <div class="col-xl-6 col-lg-12 task-detail-right">
                         <div class="card">
                             <div class="card-header">
-                                <h5>{{ trans('cruds.project.fields.technology') }}</h5>
+                                <h5>@lang('cruds.project.fields.technology') </h5>
                             </div>
                             <div class="card-block">
                                 <div class="taskboard-right-revision user-box mt-3 ms-3">
@@ -121,11 +121,11 @@
                         <div class="card">
                             <div class="card-header d-flex">
                                 <div class="col-md-6">
-                                    <h5>{{ trans('cruds.project.fields.attachment') }}</h5>
+                                    <h5>@lang('cruds.project.fields.attachment')</h5>
                                 </div>
                                 @if(isset($project->project_document_url) && !empty($project->project_document_url))
                                     <div class="col-md-6 text-end">
-                                        <a title="{{ trans('cruds.project.download_all_attachment') }}" class="btn btn-info btn-sm createZipDownload" href="javascript:void(0)" data-href="{{ route('projects.projectAttachmentZip', $project->uuid) }}">
+                                        <a title="@lang('cruds.project.download_all_attachment') }}" class="btn btn-info btn-sm createZipDownload" href="javascript:void(0)" data-href="{{ route('projects.projectAttachmentZip', $project->uuid) }}">
                                             <i class="fa fa-download" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -172,7 +172,7 @@
                                             </li>
                                         @endforeach
                                     @else
-                                        <span>{{ trans('cruds.project.no_attachment') }}</span>
+                                        <span>@lang('cruds.project.no_attachment') </span>
                                     @endif
                                 </ul>
                             </div>
@@ -183,23 +183,23 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-3"> {{ trans('cruds.project.project_overview') }} </h5>
+                        <h5 class="mb-3"> @lang('cruds.project.project_overview')  </h5>
                     </div>
                     <div class="card-block ps-2 pt-3">
                         <div class="m-b-30">
-                            <h5 class="h5">{{ trans('cruds.project.fields.description') }}</h5>
+                            <h5 class="h5">@lang('cruds.project.fields.description')</h5>
                             <hr>
                             {!! $project->description ?? '' !!}
                             <hr>
                         </div>
                         <div class="m-b-30">
-                            <h5 class="h5">{{ trans('cruds.project.fields.refrence_details') }}</h5>
+                            <h5 class="h5">@lang('cruds.project.fields.refrence_details')</h5>
                             <hr>
                             {!! $project->refrence_details ?? '' !!}
                             <hr>
                         </div>
                         <div class="m-b-30">
-                            <h5 class="h5">{{ trans('cruds.project.fields.credentials') }}</h5>
+                            <h5 class="h5">@lang('cruds.project.fields.credentials') </h5>
                             <hr>
                             {!! $project->credentials ?? '' !!}
                         </div>
@@ -210,24 +210,30 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     @if($project && $project->milestones->count() > 0)
-                    <div class="card-block bg-c-blue">
-                        <div class="counter text-center">
-                            <h3 class="text-white m-0">{{ trans('cruds.milestone.title') }}</h3>
+                        <div class="card-block bg-c-blue">
+                            <div class="counter text-center">
+                                <h3 class="text-white m-0">@lang('cruds.milestone.title') </h3>
+                            </div>
                         </div>
-                    </div>
                         @foreach($project->milestones as $milestone)
                             <div class="card-header">
                                 <h4>{{$milestone->name}} 
                                     @php 
                                     $milestoneStatusKey = $milestone->status;
                                     $milestoneStatusLabel = config('constant.milestone_status')[$milestoneStatusKey] ?? 'Unknown';
-                                    $milestoneBadgeClass = match($milestoneStatusKey) {
-                                        'initial' => 'badge bg-danger',
-                                        'in_progress' => 'badge bg-warning text-dark',
-                                        'completed' => 'badge bg-success',
-                                        'not_started' => 'badge bg-secondary',
-                                    }; @endphp
-                                    <span class="ms-2 badge {{ $milestoneBadgeClass }}">{{ $milestoneStatusLabel }}</span>
+                                    if($milestoneStatusKey){
+                                        $milestoneBadgeClass = match($milestoneStatusKey) {
+                                            'initial' => 'badge bg-danger',
+                                            'in_progress' => 'badge bg-warning text-dark',
+                                            'completed' => 'badge bg-success',
+                                            'not_started' => 'badge bg-secondary',
+                                        };
+                                    }
+                                    @endphp
+                                    
+                                    @if(isset($milestoneBadgeClass))
+                                        <span class="ms-2 badge {{ $milestoneBadgeClass }}">{{ $milestoneStatusLabel }}</span>
+                                    @endif
                                 </h4>
                                 <p class="mb-0"><small>
                                    Start Date: {{$milestone->start_date->format(config('constant.date_format.date'))}} <br />
@@ -238,11 +244,11 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>{{ trans('cruds.task.fields.name') }}</th>
-                                            <th>{{ trans('cruds.task.fields.assigned_to') }}</th>
-                                            <th>{{ trans('cruds.task.fields.estimated_time') }}</th>
-                                            <th>{{ trans('cruds.task.fields.priority') }}</th>
-                                            <th>{{ trans('cruds.task.fields.status') }}</th>
+                                            <th>@lang('cruds.task.fields.name') </th>
+                                            <th>@lang('cruds.task.fields.assigned_to')</th>
+                                            <th>@lang('cruds.task.fields.estimated_time') </th>
+                                            <th>@lang('cruds.task.fields.priority') </th>
+                                            <th>@lang('cruds.task.fields.status') </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -256,14 +262,21 @@
                                                 @php 
                                                     $taskStatusKey = $task->status;
                                                     $taskStatusLabel = config('constant.task_status')[$taskStatusKey] ?? 'Unknown';
-                                                    $taskBadgeClass = match($taskStatusKey) {
-                                                        'initial' => 'badge bg-danger',
-                                                        'in_progress' => 'badge bg-warning text-dark',
-                                                        'completed' => 'badge bg-success',
-                                                        default => 'badge bg-secondary',
-                                                    }; 
+                                                    if($milestoneStatusLabel){
+                                                        $taskBadgeClass = match($taskStatusKey) {
+                                                            'initial' => 'badge bg-danger',
+                                                            'in_progress' => 'badge bg-warning text-dark',
+                                                            'completed' => 'badge bg-success',
+                                                            default => 'badge bg-secondary',
+                                                        };
+                                                    }
                                                 @endphp
-                                                <td><span class="badge {{ $taskBadgeClass }}">{{ $taskStatusLabel }}</span></td>
+                                                
+                                                <td>
+                                                    @if(isset($taskBadgeClass))
+                                                    <span class="badge {{ $taskBadgeClass }}">{{ $taskStatusLabel }}</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                         @else
@@ -289,7 +302,7 @@
 <script>
     // donload all attachment
     $(document).on("click",".createZipDownload", function() {
-        $('#pageloader').css('display', 'flex');
+        pageLoader('show');
         var url = $(this).data('href');
         $.ajax({
             type: 'get',
@@ -303,7 +316,12 @@
                     toasterAlert('Error',response.message);
                 }
             },
-
+            error: function (response) {
+                toasterAlert('Error',response.responseJSON.error);
+            },
+            complete: function(xhr){
+                pageLoader('hide');
+            }
         });
     });
 

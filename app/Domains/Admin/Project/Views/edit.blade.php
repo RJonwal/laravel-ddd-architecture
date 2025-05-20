@@ -10,15 +10,13 @@
 @section('main-content')
 <div class="card">
     <div class="card-header card-header-primary">
-        <h4 class="card-title">
-        {{ trans('global.edit') }} {{ trans('cruds.project.title_singular') }}
-        </h4>
+        <h4 class="card-title">@lang('global.edit') @lang('cruds.project.title_singular')</h4>
     </div>
     <div class="card-body">
         <form method="POST" id="projectEditForm" data-url="{{ route('projects.update', [$project->uuid]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf           
-            @include('Project::_form')
+            @include('Project::partials.form')
         </form>
     </div>
 </div>

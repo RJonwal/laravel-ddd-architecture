@@ -12,7 +12,7 @@ $(document).ready( function(){
     $(".select2").select2();  
 
     $('#start_date').datepicker({
-        format: 'dd-mm-yyyy',
+        format: "{{ config('constant.js_date_format.date') }}",
         autoclose: true,
         startDate: new Date(),
     }).on('changeDate', function (selected) {            
@@ -22,7 +22,7 @@ $(document).ready( function(){
     });
 
     $('#end_date').datepicker({
-        format: 'dd-mm-yyyy',
+        format: "{{ config('constant.js_date_format.date') }}",
         autoclose: true,
         startDate: new Date(),
     });
@@ -40,80 +40,31 @@ $(document).ready( function(){
         focusInvalid: false,
 
         rules: {
-            /* 'name': {
-                // required: true,
-            }, */
+            'name': {
+                required: true,
+            },
             
-            /* 'status': {
-                required: true,
-            }, */
-            /* 'cost_of_project': {
-                // required: true,
-                number: true,
-                min: 1,
-                max:99999999.99
-            }, */
-            /*'project_taken_by': {
+            'project_lead': {
                 required: true,
             },
-            'project_discuss_with': {
+            'assign_developers': {
                 required: true,
-            },
-            'start_date': {
-                required: true,
-            },
-            'end_date': {
-                required: true,
-            },
-            'platform': {
-                required: true,
-            },
-            'tag': {
-                required: true,
-            },
-            'technology': {
-                required: true,
-            },*/
-            
+            }
         },
         messages: {
             title: {
-                required: 'Title is required dsf',
+                required: 'Title field is required.',
             },                
-            client_name: {
-                required: 'Client name is required',
+            project_lead: {
+                required: 'Project lead field is required.',
             },
-            cost_of_project: {
-                required: 'Cost of project is required',
-            },                
-            project_taken_by: {
-                required: 'Project taken by is required',
-            },                
-            project_discuss_with: {
-                required: 'Project discuss with is required',
-            },                
-            start_date: {
-                required: 'Start date is required',
-            },                
-            end_date: {
-                required: 'Delivery date is required',
-            },                
-            platform: {
-                required: 'Platform is required',
-            },                
-            tag: {
-                required: 'Tag is required',
-            },                
-            technology: {
-                required: 'Technology is required',
-            },                
-            
+            assign_developers: {
+                required: 'Assign developers field is required.',
+            }
         },
 
         // Errors //
-
         errorPlacement: function errorPlacement(error, element) {
-
             var $parent = $(element).parents('.form-group');
             // Do not duplicate errors
             if ($parent.find('.jquery-validation-error').length) {
@@ -123,11 +74,9 @@ $(document).ready( function(){
             $parent.append(
                 error.addClass('jquery-validation-error small form-text invalid-feedback')
             );
-
         },
 
         highlight: function(element) {
-
             var $el = $(element);
 
             var $parent = $el.parents('.form-group');
@@ -135,11 +84,8 @@ $(document).ready( function(){
         },
 
         unhighlight: function(element) {
-
             $(element).parents('.form-group').find('.is-invalid').removeClass('is-invalid');
-
         }
-
     });
 
     @can('project_create')
@@ -174,7 +120,7 @@ $(document).ready( function(){
 // update and store project
 function storeUpdateProject(formData, url){
     $('.validation-error-block').remove();
-    $('.loader-div').show();
+    pageLoader('show', true);
     $.ajax({
         type: 'post',
         url: url,
@@ -183,7 +129,6 @@ function storeUpdateProject(formData, url){
         processData: false,
         data: formData,
         success: function (response) {
-            $('.loader-div').hide();
             if(response.success){
                 toasterAlert('success',response.message);  
                 setTimeout(function() {                  
@@ -192,7 +137,6 @@ function storeUpdateProject(formData, url){
             }
         },
         error: function (response) {
-            $('.loader-div').hide();
             $("#sendBtn").attr('disabled', false);
             var errorLabelTitle = '';
             if(response.responseJSON.error_type == 'something_error'){
@@ -210,7 +154,7 @@ function storeUpdateProject(formData, url){
             }
         },
         complete: function(res){
-            $('.loader-div').hide();
+            pageLoader('hide', true);
         }
     });   
 }

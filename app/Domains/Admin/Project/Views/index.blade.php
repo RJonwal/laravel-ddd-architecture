@@ -44,33 +44,7 @@
 
 
 <script type="text/javascript">
-$(document).ready( function(){    
-    $(document).on("click",".createZipDownload", function() {
-        $('#pageloader').css('display', 'flex');
-        var url = $(this).data('href');
-        $('.loader-div').show();
-        $.ajax({
-            type: 'get',
-            url: url,
-            dataType: 'json',
-            success: function (response) {
-                $('.loader-div').hide();
-                if(response.success) {
-                    window.open(response.zipPath);
-                }else{
-                    toasterAlert('Error',response.message);
-                }
-            },
-            error: function(response){
-                $('.loader-div').hide();
-                toasterAlert('Error', response.responseJSON.error);
-            },
-            complete: function(response){
-                $('.loader-div').hide();
-            }
-        });
-    });
-    
+$(document).ready( function(){
     // delete project
     $(document).on("click",".deleteProjectBtn", function() {
         
@@ -88,14 +62,13 @@ $(document).ready( function(){
         })
         .then(function(result) {
             if (result.isConfirmed) {  
-                $('.loader-div').show();
+                pageLoader('show');
                 $.ajax({
                     type: 'DELETE',
                     url: url,
                     dataType: 'json',
                     data: { _token: csrf_token },
                     success: function (response) {
-                        $('.loader-div').hide();
                         if(response.success) {
                             toasterAlert('Success',response.message);
 
@@ -103,8 +76,10 @@ $(document).ready( function(){
                         }
                     },
                     error: function(response){
-                        $('.loader-div').hide();
                         toasterAlert('Error',response.responseJSON.error);
+                    },
+                    complete: function(xhr){
+                        pageLoader('hide');
                     }
                 });
             }

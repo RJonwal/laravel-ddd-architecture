@@ -2,15 +2,14 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('global.edit') }}
-                    {{ trans('cruds.user.title_singular') }}</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">@lang('global.edit') @lang('cruds.user.title_singular')</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editUserForm" data-href="{{route('users.update', $user->uuid)}}">
                     @csrf
                     @method('PUT')
-                    @include('User::_form')
+                    @include('User::partials.form')
                 </form>
             </div>
         </div>

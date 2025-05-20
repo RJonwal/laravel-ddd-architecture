@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('global.show') }} {{ trans('cruds.milestone.title_singular') }}</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">@lang('global.show') @lang('cruds.milestone.title_singular')</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,27 +11,27 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.milestone.fields.name') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.milestone.fields.name')</th>
                                     <td> {{ $milestone->name ?? 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.milestone.fields.project_id') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.milestone.fields.project_id')  </th>
                                     <td> {{ $milestone->project_id ? $milestone->project->name : 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.milestone.fields.start_date') }} </th>
+                                    <th> @lang('cruds.milestone.fields.start_date')</th>
                                     <td> {!! $milestone->start_date->format(config('constant.date_format.date')) ?? 'N/A' !!} </td>
                                 </tr>
                                  <tr>
-                                    <th> {{ trans('cruds.milestone.fields.end_date') }} </th>
+                                    <th> @lang('cruds.milestone.fields.end_date')</th>
                                     <td> {!! $milestone->end_date->format(config('constant.date_format.date')) ?? 'N/A' !!} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.milestone.fields.status') }} </th>
+                                    <th> @lang('cruds.milestone.fields.status')</th>
                                     <td> {{ config('constant.milestone_status.' . $milestone->status, 'N/A') }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.milestone.fields.created_at') }} </th>
+                                    <th> @lang('cruds.milestone.fields.created_at')</th>
                                     <td> {{ $milestone->created_at->format(config('constant.date_format.date_time')) }} </td>
                                 </tr>
                             </tbody>

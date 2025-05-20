@@ -19,17 +19,18 @@ class LoginController extends Controller
         $credentialsOnly = $request->only('email', 'password');
         if (Auth::attempt($credentialsOnly, $remember_me))
         {
-            session()->flash('success', trans('messages.login_success'));
+            // Flash messages after login
+            session()->flash('success', __('messages.login_success'));
+
             return response()->json([
                 'success' => true,
-                // 'message' => trans('messages.login_success'),
                 'redirect_url' => route('admin.dashboard')
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'message' => trans('messages.wrong_credentials')
+            'message' => __('messages.wrong_credentials')
         ], 400);
     }
 

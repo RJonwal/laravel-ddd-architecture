@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use App\Support\BladeDirectives;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::directive('btnLoader', function () {
-            return '<i class="fa fa-spinner fa-spin btn_loader d-none"></i>';
-        });
+        BladeDirectives::register();
     }
 }

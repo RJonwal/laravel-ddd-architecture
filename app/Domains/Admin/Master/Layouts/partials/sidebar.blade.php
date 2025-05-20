@@ -37,7 +37,7 @@
             @can('user_access')
             <li class="side-nav-item {{ request()->is('users') ? 'menuitem-active' : ''}}">
                 <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->is('users') ? 'active' : ''}}">
-                    <i class=" ri-user-line"></i>
+                    <i class=" ri-group-line"></i>
                     <span> @lang('cruds.menus.user') </span>
                 </a>
             </li>
@@ -47,7 +47,7 @@
             @can('technology_access')
             <li class="side-nav-item {{ request()->is('technologies') ? 'menuitem-active' : ''}}">
                 <a href="{{ route('technologies.index') }}" class="side-nav-link {{ request()->is('technologies') ? 'active' : ''}}">
-                    <i class=" ri-mail-line"></i>
+                    <i class=" ri-tools-line"></i>
                     <span> @lang('cruds.menus.technology') </span>
                 </a>
             </li>
@@ -56,7 +56,7 @@
             @can('project_access')
             <li class="side-nav-item {{ request()->is('projects/*') ? 'menuitem-active' : ''}}">
                 <a href="{{ route('projects.index') }}" class="side-nav-link {{ request()->is('projects/*') ? 'active' : ''}}">
-                    <i class=" ri-shield-star-line"></i>
+                    <i class=" ri-briefcase-3-fill"></i>
                     <span> @lang('cruds.menus.project') </span>
                 </a>
             </li>

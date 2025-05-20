@@ -46,14 +46,17 @@ class MilestoneDataTable extends DataTable
             ->editColumn('status', function($record) {
                 $status = $record->status;
                 $statusText = $status ? config('constant.milestone_status.' . $status, '') : '';
-
-                $colorClass = match($status) {
-                    'initial'    => 'badge bg-danger',
-                    'completed'  => 'badge bg-success',
-                    'in_progress' => 'badge bg-warning text-dark',
-                    'not_started' => 'badge bg-secondary',
-                };
-                return '<span class="' . $colorClass . '">' . $statusText . '</span>';
+                if($statusText){
+                    $colorClass = match($status) {
+                        'initial'    => 'badge bg-danger',
+                        'completed'  => 'badge bg-success',
+                        'in_progress' => 'badge bg-warning text-dark',
+                        'not_started' => 'badge bg-secondary',
+                    };
+                    return '<span class="' . $colorClass . '">' . $statusText . '</span>';
+                } else {
+                    return '';
+                }
             })
 
             ->addColumn('action', function($record){

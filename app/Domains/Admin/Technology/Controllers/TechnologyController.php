@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 
 class TechnologyController extends Controller
 {
@@ -35,7 +34,6 @@ class TechnologyController extends Controller
             $viewHTML = view('Technology::create')->render();
             return response()->json(['success' => true, 'htmlView' => $viewHTML]);
         } catch (\Exception $e) {
-            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -57,7 +55,6 @@ class TechnologyController extends Controller
             
         } catch (\Exception $e) {
             DB::rollBack();
-            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -87,7 +84,6 @@ class TechnologyController extends Controller
             $viewHTML = view('Technology::edit', compact('technology'))->render();
             return response()->json(['success' => true, 'htmlView' => $viewHTML]);
         } catch (\Exception $e) {
-            // dd($e);
             return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
         }
     }
@@ -124,6 +120,7 @@ class TechnologyController extends Controller
             DB::beginTransaction();
             try {
                 
+                $technology->projects()->sync([]);
                 $technology->delete();
                 
                 DB::commit();
@@ -134,7 +131,6 @@ class TechnologyController extends Controller
                 return response()->json($response);
             } catch (\Exception $e) {
                 DB::rollBack();
-                // dd($e);
                 return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
             }
         }

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('global.show') }} {{ trans('cruds.user.title_singular') }}</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">@lang('global.show') @lang('cruds.user.title_singular')</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,24 +11,24 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <th style="width:150px;"> {{ trans('cruds.user.fields.name') }} </th>
+                                    <th style="width:150px;"> @lang('cruds.user.fields.name') </th>
                                     <td> {{ $user->name ?? 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.user.fields.email') }} </th>
+                                    <th> @lang('cruds.user.fields.email') </th>
                                     <td> {{ $user->email ?? 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.user.fields.phone') }} </th>
+                                    <th> @lang('cruds.user.fields.phone')  </th>
                                     <td> {{ $user->phone ?? 'N/A' }} </td>
                                 </tr>
                                 
                                 <tr>
-                                    <th> {{ trans('cruds.user.fields.status') }} </th>
+                                    <th> @lang('cruds.user.fields.status') </th>
                                     <td> {{ $user->status ? config('constant.user_status')[$user->status] : 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> {{ trans('cruds.user.fields.created_at') }} </th>
+                                    <th> @lang('cruds.user.fields.created_at') </th>
                                     <td> {{ $user->created_at->format(config('constant.date_format.date_time')) }} </td>
                                 </tr>
                             </tbody>

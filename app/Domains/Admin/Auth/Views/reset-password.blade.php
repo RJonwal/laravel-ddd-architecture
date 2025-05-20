@@ -1,4 +1,4 @@
-@extends('layouts.admin_auth')
+@extends('Layouts::auth')
 @section('title', trans('global.forgot_password_title'))
 @section('main-content')
 
@@ -19,41 +19,32 @@
                 <div class="log-register-block">
                     <h2 class="text-center">Reset Your Password</h2>
                     <p class="text-center">Reset your password to continue</p>
-                    <form method="POST" action="{{route("admin.reset-new-password")}}">
+                    <form id="reset_password_form">
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter password" tabindex="1" value="{{ old('password') }}" autofocus>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" tabindex="1">
                                 <div class="input-group-text toggle-password show-password" data-password="false">
                                     <span class="password-eye"></span>
                                 </div>
                             </div>
-
-                            @error('password')
-                            <span class="invalid-feedback d-block">
-                                {{ $message }}
-                            </span>
-                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="password-confirm" class="form-label">Confirm Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password-confirm" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Enter confirm password" tabindex="2" value="{{ old('password_confirmation') }}">
+                                <input type="password" id="password-confirm" name="password_confirmation" class="form-control" placeholder="Enter confirm password" tabindex="2">
                                 <div class="input-group-text toggle-password show-password" data-password="false">
                                     <span class="password-eye"></span>
                                 </div>
                             </div>
-
-                            @error('password_confirmation')
-                            <span class="invalid-feedback d-block">
-                                {{ $message }}
-                            </span>
-                            @enderror
                         </div>
                         <div class="btn-block">
-                            <button class="btn btn-soft-primary w-100" type="submit">@lang('global.submit')</button>
+                            <button class="btn btn-soft-primary w-100" type="submit">
+                                @lang('global.submit')
+                                @btnLoader
+                            </button>
                         </div>
                     </form>
                     <p class="bottom-para">Already have an Account? <a href="{{ route('login') }}" class="text-decoration-underline">@lang('global.login')</a></p>
@@ -70,18 +61,41 @@
 
 <script>
 
-    // Password field hide/show functiolity
-    $(document).on('click', '.toggle-password', function () {        
-          var passwordInput = $(this).prev('input');  
-          console.log(passwordInput);      
-          if (passwordInput.attr('type') === 'password') {
-              passwordInput.attr('type', 'text');
-              $(this).removeClass('show-password');
-          } else {
-              passwordInput.attr('type', 'password');
-              $(this).addClass('show-password');
-          }
+// Reset Ajax
+$(document).on('submit', '#reset_password_form', function(e){
+    e.preventDefault();
+    let formData = new FormData(this);
+
+    $('.validation-error-block').remove();
+    
+    btnloader('show');
+    $.ajax({
+        type: 'post',
+        url: '{{route("reset-new-password")}}',
+        data: formData,
+        dataType: "json",
+        processData: false, // Prevent jQuery from processing the data
+        contentType: false, // Prevent jQuery from setting content type
+        success: function(response, textStatus, jqXHR){
+            window.location.href=response.redirect_url;
+        },
+        error: function(response, textStatus, jqXHR){
+            if(response.responseJSON.error_type == 'something_error'){
+                toasterAlert('error',response.responseJSON.error);
+            } else {                    
+                var errorLabelTitle = '';
+                $.each(response.responseJSON.errors, function (key, item) {
+                    errorLabelTitle = '<span class="validation-error-block">'+item[0]+'</sapn>';
+                    
+                    $(errorLabelTitle).insertAfter("input[name='"+key+"']");
+                });
+            }
+        },
+        complete: function(response, textStatus, jqXHR){
+            btnloader('hide');
+        }
     });
+});
 
 </script>
 @endsection

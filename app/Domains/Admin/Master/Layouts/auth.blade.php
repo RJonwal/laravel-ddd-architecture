@@ -34,9 +34,7 @@
     <!-- end page -->
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    @include('Layouts::partials.alert')
+    @include('Layouts::partials.fscript')
 
     @yield('custom_js')
 </body>

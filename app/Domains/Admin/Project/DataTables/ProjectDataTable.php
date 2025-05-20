@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Illuminate\Support\Str;
 
 class ProjectDataTable extends DataTable
 {
@@ -47,13 +46,17 @@ class ProjectDataTable extends DataTable
             ->editColumn('project_status', function($record) {
                 $status = $record->project_status;
                 $statusText = $status ? config('constant.project_status')[$record->project_status] : '';
-                $colorClass = match($status) {
-                    'start'    => 'badge bg-danger',
-                    'complete'  => 'badge bg-success',
-                    'progress' => 'badge bg-warning text-dark',
-                    'hold'      => 'badge bg-secondary',
-                };
-                return '<span class="' . $colorClass . '">' . $statusText . '</span>';
+                if($statusText){
+                    $colorClass = match($status) {
+                        'start'    => 'badge bg-danger',
+                        'complete'  => 'badge bg-success',
+                        'progress' => 'badge bg-warning text-dark',
+                        'hold'      => 'badge bg-secondary',
+                    };
+                    return '<span class="' . $colorClass . '">' . $statusText . '</span>';
+                } else {
+                    return '';
+                }
             })
             
             ->addColumn('action', function($record){
