@@ -91,4 +91,17 @@ return [
         'completed'     => 'Completed',
         'not_started'   => 'Not started',
     ],
+
+    'activity_status' => [
+        'initial'     => 'Initial (0-30%)',
+        'midlevel'     => 'Midlevel (30-70%)',
+        'final'     => 'Final (70-100%)',
+        'completed'     => 'Completed',
+    ],
+
+    'task_types' => [
+        'new'           => 'New',
+        'modification'  => 'Modifications',
+        'bug_fixing'    => 'Bug Fixing'
+    ],
 ];

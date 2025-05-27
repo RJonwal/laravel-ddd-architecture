@@ -217,7 +217,7 @@ class ProjectController extends Controller
                 return response()->json($response);
             } catch (\Exception $e) {
                 DB::rollBack();
-                dd($e);
+                // dd($e);
                 return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
             }
         }

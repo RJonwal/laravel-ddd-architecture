@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Domains\Admin\DailyTask\Models;
+namespace App\Domains\Admin\DailyActivityLog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Domains\Admin\Milestone\Models\Milestone;
 use App\Domains\Admin\User\Models\User;
 use App\Domains\Admin\Project\Models\Project;
+use App\Domains\Admin\Task\Models\Task;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DailyTask extends Model
+class DailyActivityTaskLog extends Model
 {
     use SoftDeletes;
-    protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-    ];
 
     protected $dates = [
         'created_at',
@@ -25,15 +23,12 @@ class DailyTask extends Model
 
     protected $fillable = [
         'uuid',
-        'name',
+        'task_id',
+        'sub_task_id',
         'description',
-        'project_id',
-        'milestone_id',
-        'parent_daily_task_id',
-        'user_id',
-        'estimated_time',
-        'priority',
+        'work_time',
         'status',
+        'task_type',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -42,24 +37,16 @@ class DailyTask extends Model
     protected static function boot ()
     {
         parent::boot();
-        static::creating(function(DailyTask $model) {
+        static::creating(function(DailyActivityTaskLog $model) {
             $model->uuid = Str::uuid();
         });
     }
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
+    public function task(){
+        return $this->belongsTo(Task::class, 'task_id', 'id');
     }
 
-    public function milestone()
-    {
-        return $this->belongsTo(Milestone::class);
+    public function subTask(){
+        return $this->belongsTo(Task::class, 'sub_task_id', 'id');
     }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
 }

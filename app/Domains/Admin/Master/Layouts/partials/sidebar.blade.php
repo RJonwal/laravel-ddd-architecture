@@ -83,11 +83,11 @@
             @endcan
 
             {{-- Daily Task log Menu --}}
-            @can('daily_task_access')
-            <li class="side-nav-item {{ request()->routeIs('daily-tasks.*') ? 'menuitem-active' : '' }}">
-                <a href="{{ route('daily-tasks.index') }}" class="side-nav-link {{ request()->routeIs('daily-tasks.*') ? 'active' : '' }}">
+            @can('daily_activity_log_access')
+            <li class="side-nav-item {{ request()->routeIs('daily-activity-logs.*') ? 'menuitem-active' : '' }}">
+                <a href="{{ route('daily-activity-logs.index') }}" class="side-nav-link {{ request()->routeIs('daily-activity-logs.*') ? 'active' : '' }}">
                     <i class="ri-task-line"></i>
-                    <span>@lang('cruds.menus.task')</span>
+                    <span>@lang('cruds.menus.daily_activity_logs')</span>
                 </a>
             </li>
             @endcan

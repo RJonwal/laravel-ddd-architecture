@@ -23,7 +23,7 @@ class MilestoneStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => ['required', 'regex:/^[a-zA-Z\s]+$/', 'string', 'max:255', new NoMultipleSpacesRule, 'unique:milestones,name,NULL,id,deleted_at,NULL'],
+            'name'  => ['required', 'string', 'max:255', new NoMultipleSpacesRule, 'unique:milestones,name,NULL,id,deleted_at,NULL'],
             'project_id'  => ['required', 'exists:projects,uuid'],
             'start_date'  => [
                 'nullable',

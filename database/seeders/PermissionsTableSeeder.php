@@ -248,6 +248,14 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            [
+                'name'       => 'daily_activity_log_delete',
+                'title'      => 'Delete',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
 
             [
                 'name'       => 'milestone_access',
@@ -328,6 +336,24 @@ class PermissionsTableSeeder extends Seeder
                 'name'       => 'task_delete',
                 'title'      => 'Delete',
                 'route_name' => 'tasks',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            // Admin Activity Permission
+            [
+                'name'       => 'admin_daily_activity_log_access',
+                'title'      => 'Daily Activity Logs Menu Access',
+                'route_name' => 'daily_activity_logs',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'admin_daily_activity_log_view',
+                'title'      => 'Delete',
+                'route_name' => 'daily_activity_logs',
                 'type'       => 'backend',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,

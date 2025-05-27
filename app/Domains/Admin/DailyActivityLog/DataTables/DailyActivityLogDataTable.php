@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Domains\Admin\DailyTask\DataTables;
+namespace App\Domains\Admin\DailyActivityLog\DataTables;
 
-use App\Domains\Admin\DailyTask\Models\DailyTask;
+use App\Domains\Admin\DailyActivityLog\Models\DailyActivityLog;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Illuminate\Support\Str;
 
-class DailyTaskDataTable extends DataTable
+class DailyActivityLogDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -21,7 +20,7 @@ class DailyTaskDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query->select('daily_tasks.*')->with(['milestone', 'user','project'])))
+        return (new EloquentDataTable($query->select('daily_activity_logs.*')->with(['project'])))
             ->addIndexColumn()
 
             ->editColumn('created_at', function($record) {
@@ -29,56 +28,27 @@ class DailyTaskDataTable extends DataTable
 
             })
 
-            ->editColumn('name', function($record){
-                return $record->name ? ucwords($record->name) : '';
-            })
-
             ->editColumn('project.name', function($record){
                 return $record->project_id ? $record->project->name : '-';
             })
 
-            ->editColumn('milestone.name', function($record){
-                return $record->milestone ? $record->milestone->name : '-';
+            ->editColumn('report_date', function($record){
+                return $record->report_date ? $record->report_date->format(config('constant.date_format.date')) : '-';
             })
 
-            ->editColumn('user.name', function($record){
-                return $record->user ? $record->user->name : '-';
-            })
-
-            ->editColumn('estimated_time', function($record){
-                return $record->estimated_time ? ucwords($record->estimated_time) : '';
-            })
-
-            ->editColumn('priority', function($record){
-                return $record->priority ? ucwords($record->priority) : '';
-            })
-
-            ->editColumn('status', function($record) {
-                $status = $record->status;
-                $statusText = $status ? config('constant.daily_task_status.' . $status, '') : '';
-
-                $colorClass = match($status) {
-                    'initial'    => 'badge bg-danger',
-                    'completed'  => 'badge bg-success',
-                    'in_progress' => 'badge bg-warning text-dark',
-                    default      => 'badge bg-secondary',
-                };
-
-                return '<span class="' . $colorClass . '">' . $statusText . '</span>';
-            })
 
             ->addColumn('action', function($record){
                 $actionHtml = '';
-               if (Gate::check('daily_task_view')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-tasks.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewDailyTask" title="Show"> <i class="ri-eye-line"></i> </a>';
+               if (Gate::check('daily_activity_log_view')) {
+                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-activity-logs.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewDailyActivityLog" title="Show"> <i class="ri-eye-line"></i> </a>';
                 }
 
-                if (Gate::check('daily_task_edit')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-tasks.edit',$record->uuid).'" class="btn btn-outline-success btn-sm btnEditDailyTask" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
+                if (Gate::check('daily_activity_log_edit')) {
+                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-activity-logs.edit',$record->uuid).'" class="btn btn-outline-success btn-sm btnEditDailyActivityLog" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
                 }
                 
-                if (Gate::check('daily_task_delete')) {
-                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteDailyTaskBtn" data-href="'.route('daily-tasks.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
+                if (Gate::check('daily_activity_log_delete')) {
+                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteDailyActivityLogBtn" data-href="'.route('daily-activity-logs.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
                 }
                 return $actionHtml;
             })
@@ -94,9 +64,9 @@ class DailyTaskDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(DailyTask $model): QueryBuilder
+    public function query(DailyActivityLog $model): QueryBuilder
     {         
-        return $model->newQuery();
+        return $model->where('created_by', auth('web')->user()->id)->newQuery();
     }
 
     /**
@@ -106,7 +76,7 @@ class DailyTaskDataTable extends DataTable
     {
         $orderByColumn = 8;        
         return $this->builder()
-                    ->setTableId('daily-task-table')
+                    ->setTableId('daily_activity_log-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy($orderByColumn)                    
@@ -140,14 +110,10 @@ class DailyTaskDataTable extends DataTable
 
         $columns[] = Column::make('DT_RowIndex')->title(trans('global.sno'))->orderable(false)->searchable(false)->addClass('dt-sno');
       
-        $columns[] = Column::make('name')->title(trans('cruds.dailyTask.fields.name'));
-        $columns[] = Column::make('project.name')->title(trans('cruds.dailyTask.fields.project_id'));
-        $columns[] = Column::make('milestone.name')->title(trans('cruds.dailyTask.fields.milestone_id'));
-        $columns[] = Column::make('user.name')->title(trans('cruds.dailyTask.fields.assigned_to'));
-        $columns[] = Column::make('estimated_time')->title(trans('cruds.dailyTask.fields.estimated_time'));
-        $columns[] = Column::make('priority')->title(trans('cruds.dailyTask.fields.priority'));
-        $columns[] = Column::make('status')->title(trans('cruds.dailyTask.fields.status'));
-        $columns[] = Column::make('created_at')->title(trans('cruds.dailyTask.fields.created_at'))->addClass('dt-created_at');
+        $columns[] = Column::make('project.name')->title(trans('cruds.daily_activity_log.fields.project_id'));
+        $columns[] = Column::make('report_date')->title(trans('cruds.daily_activity_log.fields.report_date'));
+        // $columns[] = Column::make('work_time')->title(trans('cruds.daily_activity_log.fields.work_time'));
+        $columns[] = Column::make('created_at')->title(trans('cruds.daily_activity_log.fields.created_at'))->addClass('dt-created_at');
        
         $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');
 
@@ -159,6 +125,6 @@ class DailyTaskDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'DailyTasks' . date('YmdHis');
+        return 'DailyActivityLogs' . date('YmdHis');
     }
 }

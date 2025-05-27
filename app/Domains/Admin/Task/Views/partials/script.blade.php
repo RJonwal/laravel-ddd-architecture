@@ -89,7 +89,7 @@
                         
     @can('task_create')
         $(document).on("click", ".btnAddTask", function() {
-            pageloader('show');
+            pageLoader('show');
             var url = $(this).data('href');
 
             $.ajax({
@@ -110,14 +110,14 @@
                     toasterAlert('error',res.responseJSON.error);
                 },
                 complete: function(xhr){
-                    pageloader('show');
+                    pageLoader('hide');
                 }
             });
         });
 
         $(document).on('submit','#AddTaskForm', function(e) {
             e.preventDefault();
-            pageloader('show', true);
+            pageLoader('show', true);
 
             $('.validation-error-block').remove();
             var formData = $(this).serialize();
@@ -153,7 +153,7 @@
                     }
                 },
                 complete: function(xhr){
-                    pageloader('show', true);
+                    pageLoader('hide', true);
                 }
             });
         }); 
@@ -161,7 +161,7 @@
 
     @can('task_view')
         $(document).on("click", ".btnViewTask", function() {
-            pageloader('show');
+            pageLoader('show');
             var url = $(this).data('href');
 
             $.ajax({
@@ -181,7 +181,7 @@
                     toasterAlert('error',res.responseJSON.error);
                 },
                 complete: function(xhr){
-                    pageloader('show');
+                    pageLoader('hide');
                 }
             });
         });
@@ -189,7 +189,7 @@
 
     @can('task_edit')
         $(document).on("click", ".btnEditTask", function() {
-            pageloader('show');
+            pageLoader('show');
             var url = $(this).data('href');
 
             $.ajax({
@@ -209,14 +209,14 @@
                     toasterAlert('error',res.responseJSON.error);
                 },
                 complete: function(xhr){
-                    pageloader('show');
+                    pageLoader('hide');
                 }
             });
         });
 
         $(document).on('submit','#editTaskForm', function(e) {
             e.preventDefault();
-            pageloader('show', true);
+            pageLoader('show', true);
 
             $('.validation-error-block').remove();
             var formData = $(this).serialize();
@@ -254,7 +254,7 @@
                     }
                 },
                 complete: function(xhr){
-                    pageloader('show', true);
+                    pageLoader('hide', true);
                 }
             });
         }); 
@@ -274,7 +274,7 @@
             })
             .then(function(result) {
                 if (result.isConfirmed) {  
-                    pageloader('show');
+                    pageLoader('show');
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -293,7 +293,7 @@
                             toasterAlert('error',res.responseJSON.error);
                         },
                         complete: function(xhr){
-                            pageloader('show');
+                            pageLoader('hide');
                         }
                     });
                 }

@@ -83,7 +83,7 @@ class UserController extends Controller
             }
             catch (\Exception $e) {
                 
-                dd($e);
+                // dd($e);
 
                 return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
             }

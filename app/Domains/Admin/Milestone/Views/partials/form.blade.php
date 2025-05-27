@@ -18,12 +18,12 @@
 
     <div class="form-group">
         <label for="start_date">@lang('cruds.milestone.fields.start_date') <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="start_date" name="start_date" value="{{ isset($milestone) ? $milestone->start_date->format(config('constant.date_format.date')) : '' }}" required>
+        <input type="text" class="form-control" id="start_date" name="start_date" value="{{ isset($milestone) ? $milestone->start_date->format(config('constant.date_format.date')) : '' }}" required readonly>
     </div>
 
     <div class="form-group">
         <label for="end_date">@lang('cruds.milestone.fields.end_date') <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="end_date" name="end_date" value="{{ isset($milestone) ? $milestone->end_date->format(config('constant.date_format.date')) : '' }}" required>
+        <input type="text" class="form-control" id="end_date" name="end_date" value="{{ isset($milestone) ? $milestone->end_date->format(config('constant.date_format.date')) : '' }}" required readonly>
     </div>
 
     <div class="form-group">

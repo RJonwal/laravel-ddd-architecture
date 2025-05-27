@@ -88,5 +88,9 @@ return [
         'no_notification'=>'No notifications to clear!',
         'clear_notification' => 'All notifications have been cleared',
         'delete'             => 'Notification has been deleted successfully!',
+    ],
+
+    'warning_messages' => [
+        'milestone_not_selected' => "Please select Milestone"
     ]
 ];

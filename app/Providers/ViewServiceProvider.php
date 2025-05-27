@@ -30,5 +30,6 @@ class ViewServiceProvider extends ServiceProvider
         View::addNamespace('Project', base_path('app/Domains/Admin/Project/Views'));
         View::addNamespace('Milestone', base_path('app/Domains/Admin/Milestone/Views'));
         View::addNamespace('Task', base_path('app/Domains/Admin/Task/Views'));
+        View::addNamespace('DailyActivityLog', base_path('app/Domains/Admin/DailyActivityLog/Views'));
     }
 }

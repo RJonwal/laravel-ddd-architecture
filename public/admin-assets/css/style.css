@@ -1146,3 +1146,8 @@ a.dz-remove:hover {
 .img-radius {
     border-radius: 50%;
 }
+
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover {
+    background: #536200 !important;
+    cursor: pointer;
+}

@@ -20,7 +20,7 @@ class PermissionRoleTableSeeder extends Seeder
         foreach ($roles as $role) {
             switch ($role->id) {
                 case 1:
-                    $allPermissions = Permission::all();
+                    $allPermissions = Permission::where('name', 'not like', 'daily_activity_log_%')->get();
                     $role->permissions()->sync($allPermissions);
                     break;
 
