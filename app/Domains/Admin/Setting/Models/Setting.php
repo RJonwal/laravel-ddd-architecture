@@ -5,6 +5,7 @@ namespace App\Domains\Admin\Setting\Models;
 use App\Domains\Admin\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Domains\Admin\Master\Upload\Models\Uploads;
 
 class Setting extends Model
 {
@@ -44,7 +45,7 @@ class Setting extends Model
 
     }
 
-    /* public function uploads()
+     public function uploads()
     {
         return $this->morphMany(Uploads::class, 'uploadsable');
     }
@@ -63,7 +64,7 @@ class Setting extends Model
         return "";
     }
 
-    public function doc()
+   /* public function doc()
     {
         return $this->morphOne(Uploads::class, 'uploadsable')->where('type','setting-file');
     } */

@@ -300,6 +300,48 @@ class PermissionsTableSeeder extends Seeder
             ],
 
             [
+                'name'       => 'sprint_access',
+                'title'      => 'Milestone Menu Access',
+                'route_name' => 'sprints',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'sprint_create',
+                'title'      => 'Milestone Menu Access',
+                'route_name' => 'sprints',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'sprint_edit',
+                'title'      => 'Milestone Menu Access',
+                'route_name' => 'sprints',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
+                'name'       => 'sprint_view',
+                'title'      => 'Delete',
+                'route_name' => 'sprints',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'       => 'sprint_delete',
+                'title'      => 'Delete',
+                'route_name' => 'sprints',
+                'type'       => 'backend',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
                 'name'       => 'task_access',
                 'title'      => 'Task Menu Access',
                 'route_name' => 'tasks',

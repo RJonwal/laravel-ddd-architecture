@@ -177,3 +177,25 @@ if (!function_exists('generateSlug')) {
 		return $slug;
 	}
 }
+
+if (!function_exists('PaginationSettings')) {
+    function PaginationSettings(string $module): array
+    {
+		$defaultOptions = [10, 25, 50, 100];
+        $value = (int)(getSetting($module) ?? 10);
+
+		$allOptions = collect($defaultOptions)
+            ->push($value)
+            ->unique()
+            ->sort()
+            ->values();
+
+        return [
+            'pageLength' => $value,
+            'lengthMenu' => [
+                $allOptions->all(),                               // numeric
+                $allOptions->map(fn($v) => (string) $v)->all(),   // string
+            ],
+        ];
+    }
+}

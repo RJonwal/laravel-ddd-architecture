@@ -20,45 +20,63 @@ class DailyActivityLogDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query->select('daily_activity_logs.*')->with(['project'])))
-            ->addIndexColumn()
+        $dataTable = new EloquentDataTable(
+            $query->select('daily_activity_logs.*')->with(['project', 'milestone', 'user']) // add 'user' so we can access it
+        );
 
-            ->editColumn('created_at', function($record) {
-                return $record->created_at->format(config('constant.date_format.date_time'));
+        $dataTable->addIndexColumn();
 
-            })
+        $dataTable->editColumn('created_at', function ($record) {
+            return $record->created_at->format(config('constant.date_format.date_time'));
+        });
 
-            ->editColumn('project.name', function($record){
-                return $record->project_id ? $record->project->name : '-';
-            })
+        // ✅ Only add 'user.name' column if admin is allowed
+        if (Gate::allows('admin_daily_activity_log_access')) {
+            $dataTable->editColumn('user.name', function ($record) {
+                return $record->user_id ? $record->user->name : '-';
+            });
+        }
 
-            ->editColumn('report_date', function($record){
-                return $record->report_date ? $record->report_date->format(config('constant.date_format.date')) : '-';
-            })
+        $dataTable->editColumn('project.name', function ($record) {
+            return $record->project_id ? $record->project->name : '-';
+        });
 
+        $dataTable->editColumn('milestone.name', function ($record) {
+            return $record->milestone_id ? $record->milestone->name : '-';
+        });
 
-            ->addColumn('action', function($record){
-                $actionHtml = '';
-               if (Gate::check('daily_activity_log_view')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-activity-logs.show',$record->uuid).'" class="btn btn-outline-info btn-sm btnViewDailyActivityLog" title="Show"> <i class="ri-eye-line"></i> </a>';
-                }
+        $dataTable->editColumn('report_date', function ($record) {
+            return $record->report_date ? $record->report_date->format(config('constant.date_format.date')) : '-';
+        });
 
-                if (Gate::check('daily_activity_log_edit')) {
-                    $actionHtml .= '<a href="javascript:void(0);" data-href="'.route('daily-activity-logs.edit',$record->uuid).'" class="btn btn-outline-success btn-sm btnEditDailyActivityLog" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
-                }
-                
-                if (Gate::check('daily_activity_log_delete')) {
-                    $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteDailyActivityLogBtn" data-href="'.route('daily-activity-logs.destroy', $record->uuid).'" title="Delete"><i class="ri-delete-bin-line"></i></a>';
-                }
-                return $actionHtml;
-            })
-            ->setRowId('id')
+        $dataTable->addColumn('action', function ($record) {
+            $actionHtml = '';
 
-            ->filterColumn('created_at', function ($query, $keyword) {
-                $searchDateFormat = config('constant.search_date_format.date_time');
-                $query->whereRaw("DATE_FORMAT(created_at,'$searchDateFormat') like ?", ["%$keyword%"]); //date_format when searching using date
-            })
-            ->rawColumns(['action','status']);
+            if (Gate::check('daily_activity_log_view')) {
+                $actionHtml .= '<a href="javascript:void(0);" data-href="' . route('daily-activity-logs.show', $record->uuid) . '" class="btn btn-outline-info btn-sm btnViewDailyActivityLog" title="Show"> <i class="ri-eye-line"></i> </a>';
+            }
+
+            if (Gate::check('daily_activity_log_edit')) {
+                $actionHtml .= '<a href="javascript:void(0);" data-href="' . route('daily-activity-logs.edit', $record->uuid) . '" class="btn btn-outline-success btn-sm btnEditDailyActivityLog" title="Edit"> <i class="ri-edit-2-line"></i> </a>';
+            }
+
+            if (Gate::check('daily_activity_log_delete')) {
+                $actionHtml .= '<a href="javascript:void(0);" class="btn btn-outline-danger btn-sm deleteDailyActivityLogBtn" data-href="' . route('daily-activity-logs.destroy', $record->uuid) . '" title="Delete"><i class="ri-delete-bin-line"></i></a>';
+            }
+
+            return $actionHtml;
+        });
+
+        $dataTable->setRowId('id');
+
+        $dataTable->filterColumn('created_at', function ($query, $keyword) {
+            $searchDateFormat = config('constant.search_date_format.date_time');
+            $query->whereRaw("DATE_FORMAT(created_at,'$searchDateFormat') like ?", ["%$keyword%"]);
+        });
+
+        $dataTable->rawColumns(['action', 'status']);
+
+        return $dataTable;
     }
 
     /**
@@ -74,17 +92,17 @@ class DailyActivityLogDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 8;        
+        $orderByColumn = 5; 
+        $pagination = PaginationSettings('daily_task_pagination');       
         return $this->builder()
                     ->setTableId('daily_activity_log-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy($orderByColumn)                    
                     ->selectStyleSingle()
-                    ->lengthMenu([
-                        [10, 25, 50, 100, /*-1*/],
-                        [10, 25, 50, 100, /*'All'*/]
-                    ])->parameters([
+                    ->lengthMenu($pagination['lengthMenu'])
+                    ->parameters([
+                        'pageLength' => $pagination['pageLength'],
                         'responsive'=> true,
                         'pagingType' => 'simple_numbers',
                         'drawCallback' => 'function(settings) {
@@ -109,10 +127,12 @@ class DailyActivityLogDataTable extends DataTable
         $columns = [];
 
         $columns[] = Column::make('DT_RowIndex')->title(trans('global.sno'))->orderable(false)->searchable(false)->addClass('dt-sno');
-      
+        if (Gate::allows('admin_daily_activity_log_access')) {
+            $columns[] = Column::make('user.name')->title(trans('cruds.daily_activity_log.fields.user_id'));
+        }
         $columns[] = Column::make('project.name')->title(trans('cruds.daily_activity_log.fields.project_id'));
+        $columns[] = Column::make('milestone.name')->title(trans('cruds.daily_activity_log.fields.milestone_id'));
         $columns[] = Column::make('report_date')->title(trans('cruds.daily_activity_log.fields.report_date'));
-        // $columns[] = Column::make('work_time')->title(trans('cruds.daily_activity_log.fields.work_time'));
         $columns[] = Column::make('created_at')->title(trans('cruds.daily_activity_log.fields.created_at'))->addClass('dt-created_at');
        
         $columns[] = Column::computed('action')->orderable(false)->exportable(false)->printable(false)->width(60)->addClass('text-center action-col');

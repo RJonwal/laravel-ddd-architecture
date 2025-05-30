@@ -227,6 +227,7 @@
                                             'in_progress' => 'badge bg-warning text-dark',
                                             'completed' => 'badge bg-success',
                                             'not_started' => 'badge bg-secondary',
+                                            'hold'        => 'badge bg-primary',
                                         };
                                     }
                                     @endphp
