@@ -15,12 +15,16 @@
                                     <td> {{ $dailyActivityLog->name ?? 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th style="width:150px;"> @lang('cruds.daily_activity_log.fields.technology_type')</th>
-                                    <td> {{ $dailyActivityLog->dailyActivityLog ? config('constant.technology_types')[$dailyActivityLog->technology_type] : 'N/A' }} </td>
+                                    <th style="width:150px;"> @lang('cruds.daily_activity_log.fields.milestone_id')</th>
+                                    <td> {{ $dailyActivityLog->milestone ? $dailyActivityLog->milestone->name : 'N/A' }} </td>
                                 </tr>
                                 <tr>
-                                    <th> @lang('cruds.daily_activity_log.fields.description')</th>
-                                    <td> {!! $dailyActivityLog->description ?? 'N/A' !!} </td>
+                                    <th> @lang('cruds.daily_activity_log.fields.task')</th>
+                                    <td> {!! $dailyActivityLog->task ?? 'N/A' !!} </td>
+                                </tr>
+                                <tr>
+                                    <th> @lang('cruds.daily_activity_log.fields.report_date')</th>
+                                    <td> {{ $dailyActivityLog->report_date->format(config('constant.date_format.date_time')) }} </td>
                                 </tr>
                                 <tr>
                                     <th> @lang('cruds.daily_activity_log.fields.created_at')</th>

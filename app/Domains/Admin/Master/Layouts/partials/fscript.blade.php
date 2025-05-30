@@ -35,7 +35,7 @@
         }
     }
 
-    function pageLoader (type='show', isForm=false){
+    function pageLoader(type='show', isForm=false){
         if(type === 'show'){
             $('.loader-div').show();
             if(isForm){

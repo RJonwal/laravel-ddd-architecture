@@ -22,7 +22,8 @@ Route::middleware(['auth', 'PreventBackHistory'])
     require base_path('app/Domains/Admin/Technology/Routes/technology.php');
     require base_path('app/Domains/Admin/Project/Routes/project.php');
     require base_path('app/Domains/Admin/Milestone/Routes/milestone.php');
+    require base_path('app/Domains/Admin/Sprint/Routes/sprint.php');
     require base_path('app/Domains/Admin/Task/Routes/task.php');
-
     require base_path('app/Domains/Admin/DailyActivityLog/Routes/daily_activity_log.php');
+    require base_path('app/Domains/Admin/Setting/Routes/setting.php');
 });

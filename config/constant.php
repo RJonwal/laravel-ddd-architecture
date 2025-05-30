@@ -84,12 +84,22 @@ return [
         'initial'       => 'Initial',
         'in_progress'   => 'In Progress',
         'completed'     => 'Completed',
+        'not_started'   => 'Not started',
+        'hold'         => 'Hold',
     ],
     'milestone_status' => [
         'initial'       => 'Initial',
         'in_progress'   => 'In Progress',
         'completed'     => 'Completed',
         'not_started'   => 'Not started',
+        'hold'         => 'Hold',
+    ],
+    'sprint_status' => [
+        'initial'       => 'Initial',
+        'in_progress'   => 'In Progress',
+        'completed'     => 'Completed',
+        'not_started'   => 'Not started',
+        'hold'         => 'Hold',
     ],
 
     'activity_status' => [

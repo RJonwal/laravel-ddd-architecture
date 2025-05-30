@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 
 class UserDataTable extends DataTable
 {
+    public $customPageLength = 10;
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query->select('users.*')))
@@ -89,17 +90,16 @@ class UserDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         $orderByColumn = 4;        
+        $pagination = PaginationSettings('user_pagination');
         return $this->builder()
                     ->setTableId('user-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
                     ->orderBy($orderByColumn)                    
                     ->selectStyleSingle()
-                    ->lengthMenu([
-                        [10, 25, 50, 100, /*-1*/],
-                        [10, 25, 50, 100, /*'All'*/]
-                    ])->parameters([
+                    ->lengthMenu($pagination['lengthMenu'])
+                    ->parameters([
+                        'pageLength' => $pagination['pageLength'],
                         'responsive'=> true,
                         'pagingType' => 'simple_numbers',
                         'drawCallback' => 'function(settings) {
