@@ -72,6 +72,16 @@
             </li>
             @endcan
 
+            {{-- Sprint Menu --}}
+            @can('sprint_access')
+            <li class="side-nav-item {{ request()->is('sprints') ? 'menuitem-active' : ''}}">
+                <a href="{{ route('sprints.index') }}" class="side-nav-link {{ request()->is('sprints') ? 'active' : ''}}">
+                    <i class=" ri-timer-line"></i>
+                    <span> @lang('cruds.menus.sprint') </span>
+                </a>
+            </li>
+            @endcan
+
             {{-- Task Menu --}}
             @can('task_access')
             <li class="side-nav-item {{ request()->is('tasks') ? 'menuitem-active' : ''}}">
@@ -83,11 +93,21 @@
             @endcan
 
             {{-- Daily Task log Menu --}}
-            @can('daily_activity_log_access')
+            @canany(['daily_activity_log_access','admin_daily_activity_log_access'])
             <li class="side-nav-item {{ request()->routeIs('daily-activity-logs.*') ? 'menuitem-active' : '' }}">
                 <a href="{{ route('daily-activity-logs.index') }}" class="side-nav-link {{ request()->routeIs('daily-activity-logs.*') ? 'active' : '' }}">
-                    <i class="ri-task-line"></i>
+                    <i class="ri-file-list-line"></i>
                     <span>@lang('cruds.menus.daily_activity_logs')</span>
+                </a>
+            </li>
+            @endcanany
+
+            {{-- Setting Menu --}}
+            @can('setting_access')
+            <li class="side-nav-item {{ request()->routeIs('get.site.setting') ? 'menuitem-active' : '' }}">
+                <a href="{{ route('get.site.setting') }}" class="side-nav-link {{ request()->routeIs('get.site.setting') ? 'active' : '' }}">
+                    <i class="ri-settings-line"></i>
+                    <span>@lang('cruds.menus.setting')</span>
                 </a>
             </li>
             @endcan

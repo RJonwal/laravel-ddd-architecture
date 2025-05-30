@@ -119,6 +119,34 @@ $(document).ready(function(e){
     }); 
 @endcan
 
+@can('daily_activity_log_view')
+    $(document).on("click", ".btnViewDailyActivityLog", function() {
+        pageLoader('show');
+        var url = $(this).data('href');
+
+        $.ajax({
+            type: 'get',
+            url: url,
+            dataType: 'json',
+            success: function (response) {
+                if(response.success) {
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#ViewDailyActivityLog').modal('show');
+                }
+                else {
+                    toasterAlert('error',response.error);
+                }
+            },
+            error: function(res){
+                toasterAlert('error',res.responseJSON.error);
+            },
+            complete: function(xhr){
+                pageLoader('hide');
+            }
+        });
+    });
+@endcan
+
 $(document).on("change", "#project_id", function(e) {
     e.preventDefault();
 

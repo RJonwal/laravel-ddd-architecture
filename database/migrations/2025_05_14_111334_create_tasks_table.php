@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid();
             $table->unsignedBigInteger('project_id')->nullable();
             $table->foreignId('milestone_id')->nullable()->constrained('milestones');
+            $table->foreignId('sprint_id')->nullable()->constrained('sprints');
             $table->unsignedBigInteger('parent_task_id')->nullable();
             $table->string('name')->nullable();
             $table->string('description')->nullable();

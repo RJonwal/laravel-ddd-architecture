@@ -4,6 +4,7 @@ namespace App\Domains\Admin\User\Controllers;
 
 use App\Domains\Admin\User\DataTables\UserDataTable;
 use App\Domains\Admin\User\Models\User;
+use App\Domains\Admin\Setting\Models\Setting;
 use App\Domains\Admin\User\Requests\UserStoreRequest;
 use App\Domains\Admin\User\Requests\UserUpdateRequest;
 use App\Http\Controllers\Controller;

@@ -9,6 +9,7 @@ return [
         'technology'    => "Technologies",
         'project'    => "Projects",
         'milestone'    => "Milestones",
+        'sprint'    => "Sprint",
         'task'    => "Tasks",
         'daily_activity_logs'    => "Daily Activity Logs",
         'announcement'    => "Announcements",
@@ -133,6 +134,24 @@ return [
         ],
     ],
 
+    'sprint'     => [
+        'title'          => 'Sprints',
+        'title_singular' => 'Sprint',
+        'fields'         => [
+            'id'                => 'ID',
+            'name'              => 'Name',
+            'description'       => 'Description',
+            'project_id'        => 'Project',
+            'milestone_id'      => 'Milestone',
+            'start_date'        => 'Start Date',
+            'end_date'          => 'End Date',
+            'status'            => 'Status',
+            'created_at'        => 'Created at',
+            'updated_at'        => 'Updated at',
+            'deleted_at'        => 'Deleted at',
+        ],
+    ],
+
     'task'     => [
         'title'          => 'Tasks',
         'title_singular' => 'Task',
@@ -141,6 +160,7 @@ return [
             'name'              => 'Name',
             'description'       => 'Description',
             'project_id'        => 'Project',
+            'sprint_id'         => 'Sprint',
             'milestone_id'      => 'Milestone',
             'estimated_time'    => 'Estimated Time',
             'assigned_to'       => 'Assigned To',
@@ -156,10 +176,11 @@ return [
         'title'          => 'Daily Activity Logs',
         'title_singular' => 'Daily Activity Log',
         'fields'         => [
+            'name'              => 'Name',
             'id'                => 'ID',
             'project_id'        => 'Project',
             'milestone_id'      => 'Milestone',
-            'task_id'           => 'Task',
+            'user_id'           => 'User',
             'task_id'           => 'Task',
             'sub_task_id'       => 'Sub Task',
             'description'       => 'Description',

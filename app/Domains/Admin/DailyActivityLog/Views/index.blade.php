@@ -8,15 +8,16 @@
 @endsection
 
 @section('main-content')
-
     <div class="row">
         <div class="col-12 d-flex justify-content-between">
             <div class="page-title-box">
                 <h4 class="page-title">@lang('cruds.daily_activity_log.title')</h4>
             </div>
+            @can('daily_activity_log_create')
             <div class="my-3">
                 <a href="{{route('daily-activity-logs.create')}}"  class="btn btn-primary">@lang('global.create')</a>
             </div>
+            @endcan
         </div>
     </div>
 

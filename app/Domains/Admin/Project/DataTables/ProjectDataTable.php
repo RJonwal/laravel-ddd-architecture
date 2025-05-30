@@ -111,18 +111,16 @@ class ProjectDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 6;        
+        $orderByColumn = 6;     
+        $pagination = PaginationSettings('project_pagination');   
         return $this->builder()
                     ->setTableId('project-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
                     ->orderBy($orderByColumn)                    
                     ->selectStyleSingle()
-                    ->lengthMenu([
-                        [10, 25, 50, 100, /*-1*/],
-                        [10, 25, 50, 100, /*'All'*/]
-                    ])->parameters([
+                    ->lengthMenu($pagination['lengthMenu'])->parameters([
+                        'pageLength' => $pagination['pageLength'],
                         'responsive'=> true,
                         'pagingType' => 'simple_numbers',
                         'drawCallback' => 'function(settings) {

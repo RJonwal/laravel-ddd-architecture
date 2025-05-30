@@ -39,7 +39,6 @@
     $(document).on("change", "#project_id", function() {
         let projectId = $(this).val();
         $('#milestone_id').html('<option value="">Loading...</option>');
-        $('#parent_task_id').html('<option value="">Loading...</option>');
         if (projectId) {
             $.ajax({
                 url: '{{ route("tasks.milestones.byProject") }}',
@@ -62,14 +61,40 @@
         }
     });
 
-    $(document).on("change", "#milestone_id", function(){
+    $(document).on("change", "#milestone_id", function() {
         let milestoneId = $(this).val();
-        $('#parent_task_id').html('<option value="">Loading...</option>');
+        $('#sprint_id').html('<option value="">Loading...</option>');
         if (milestoneId) {
             $.ajax({
-                url: "{{ route('tasks.byMilestones') }}",
+                url: '{{ route("tasks.sprint.byMilestones") }}',
                 type: 'GET',
                 data: { milestone_id: milestoneId },
+                success: function (data) {
+                    $('#sprint_id').html('<option value="">Select Sprint</option>');
+                     $('#parent_task_id').html('<option value="">Select Task</option>');
+                    $.each(data, function (key, sprint) {
+                        $('#sprint_id').append('<option value="' + sprint.uuid + '">' + sprint.name + '</option>');
+                    });
+                },
+                error: function () {
+                    $('#sprint_id').html('<option value="">Error loading sprint</option>');
+                }
+            });
+        } else {
+            $('#sprint_id').html('<option value="">Select Sprint</option>');
+            $('#parent_task_id').html('<option value="">Select Task</option>');
+        }
+    });
+
+
+    $(document).on("change", "#sprint_id", function(){
+        let sprintId = $(this).val();
+        $('#parent_task_id').html('<option value="">Loading...</option>');
+        if (sprintId) {
+            $.ajax({
+                url: "{{ route('tasks.bySprint') }}",
+                type: 'GET',
+                data: { sprint_id: sprintId },
                 success: function (data) {
                     $('#parent_task_id').html('<option value="">Select Task</option>');
                     if (data.length > 0) {
@@ -77,9 +102,12 @@
                             $('#parent_task_id').append('<option value="' + task.uuid + '">' + task.name + '</option>');
                         });
                     }
+                    else {
+                        $('#parent_task_id').html('<option value="">No tasks found</option>');
+                    }
                 },
                 error: function () {
-                    $('#parent_task_id').html('<option value="">Error loading milestones</option>');
+                    $('#parent_task_id').html('<option value="">Error loading tasks</option>');
                 }
             });
         } else {

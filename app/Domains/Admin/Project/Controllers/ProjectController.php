@@ -217,7 +217,6 @@ class ProjectController extends Controller
                 return response()->json($response);
             } catch (\Exception $e) {
                 DB::rollBack();
-                // dd($e);
                 return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
             }
         }
@@ -272,11 +271,11 @@ class ProjectController extends Controller
 
     public function projectMilestoneTask($id){
         try {
-            $project = Project::with('milestones.tasks')->where('uuid', $id)->first();
+            $project = Project::with('milestones.sprints.tasks.children', 'milestones.sprints.tasks.user')->where('uuid', $id)->first();
             return view('Project::project_milestone', compact('project'))->render();
         }
-        catch(Throwable $th){
-            return response()->json(['success' => false, 'error_type' => 'something_error', 'error' => trans('messages.error_message')], 400 );
+        catch (\Exception $e) {
+            return abort(500);
         }
     }
 }

@@ -25,6 +25,7 @@ class MilestoneController extends Controller
         try {
             return $dataTable->render('Milestone::index');
         } catch (\Exception $e) {
+            dd($e);
             abort(500);
         }
     }
