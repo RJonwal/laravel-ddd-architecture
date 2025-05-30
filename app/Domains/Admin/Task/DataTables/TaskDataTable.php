@@ -34,7 +34,7 @@ class TaskDataTable extends DataTable
             })
 
             ->editColumn('project.name', function($record){
-                return $record->project_id ? $record->project->name : '-';
+                return $record->project ? $record->project->name : '-';
             })
 
             ->editColumn('milestone.name', function($record){
@@ -108,17 +108,17 @@ class TaskDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 8;        
+        $orderByColumn = 8;
+         $pagination = PaginationSettings('task_pagination');        
         return $this->builder()
                     ->setTableId('task-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy($orderByColumn)                    
                     ->selectStyleSingle()
-                    ->lengthMenu([
-                        [10, 25, 50, 100, /*-1*/],
-                        [10, 25, 50, 100, /*'All'*/]
-                    ])->parameters([
+                    ->lengthMenu($pagination['lengthMenu'])
+                    ->parameters([
+                        'pageLength' => $pagination['pageLength'],
                         'responsive'=> true,
                         'pagingType' => 'simple_numbers',
                         'drawCallback' => 'function(settings) {

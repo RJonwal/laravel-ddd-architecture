@@ -33,7 +33,7 @@ class MilestoneDataTable extends DataTable
             })
 
             ->editColumn('project.name', function($record){
-                return $record->project_id ? $record->project->name : '-';
+                return $record->project ? $record->project->name : '-';
             })
 
             ->editColumn('start_date', function($record){
@@ -52,6 +52,7 @@ class MilestoneDataTable extends DataTable
                         'completed'  => 'badge bg-success',
                         'in_progress' => 'badge bg-warning text-dark',
                         'not_started' => 'badge bg-secondary',
+                        'hold'        => 'badge bg-primary',
                     };
                     return '<span class="' . $colorClass . '">' . $statusText . '</span>';
                 } else {
@@ -103,7 +104,8 @@ class MilestoneDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $orderByColumn = 6;        
+        $orderByColumn = 6;
+        $pagination = PaginationSettings('milestone_pagination');        
         return $this->builder()
                     ->setTableId('milestone-table')
                     ->columns($this->getColumns())
@@ -111,10 +113,9 @@ class MilestoneDataTable extends DataTable
                     // ->dom('Bfrtip')
                     ->orderBy($orderByColumn)                    
                     ->selectStyleSingle()
-                    ->lengthMenu([
-                        [10, 25, 50, 100, /*-1*/],
-                        [10, 25, 50, 100, /*'All'*/]
-                    ])->parameters([
+                    ->lengthMenu($pagination['lengthMenu'])
+                    ->parameters([
+                        'pageLength' => $pagination['pageLength'],
                         'responsive'=> true,
                         'pagingType' => 'simple_numbers',
                         'drawCallback' => 'function(settings) {

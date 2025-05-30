@@ -26,6 +26,21 @@
         </select>        
     </div>
 
+    <div class="form-group">
+        <label for="sprint_id">@lang('cruds.task.fields.sprint_id') <span class="text-danger">*</span></label>
+        <select name="sprint_id" id="sprint_id" class="form-control select2" >
+            <option value="">Select @lang('cruds.task.fields.sprint_id')</option>
+            <!-- milestones will show here dynamically -->
+            @if(isset($sprints)) 
+                @foreach($sprints as $sprint)
+                    <option value="{{ $sprint->uuid }}" {{ isset($task) && $task->sprint_id == $sprint->id ? 'selected' : '' }}>
+                        {{ $sprint->name }}
+                    </option>
+                @endforeach
+            @endif    
+        </select>        
+    </div>
+
     @if(!isset($task) || (isset($task) && $task->parent_task_id !== null))
     <div class="form-group">
         <label for="parent_task_id">@lang('cruds.task.title')</label>

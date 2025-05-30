@@ -4,6 +4,7 @@ namespace App\Domains\Admin\Task\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Domains\Admin\Sprint\Models\Sprint;
 use App\Domains\Admin\Milestone\Models\Milestone;
 use App\Domains\Admin\User\Models\User;
 use App\Domains\Admin\Project\Models\Project;
@@ -29,6 +30,7 @@ class Task extends Model
         'description',
         'project_id',
         'milestone_id',
+        'sprint_id',
         'parent_task_id',
         'user_id',
         'estimated_time',
@@ -56,6 +58,11 @@ class Task extends Model
     {
         return $this->belongsTo(Milestone::class);
     }
+    
+    public function sprint()
+    {
+        return $this->belongsTo(Sprint::class);
+    }
 
     public function user()
     {
@@ -65,5 +72,20 @@ class Task extends Model
     public function subTasks()
     {
         return $this->hasMany(Task::class, 'parent_task_id', 'id');
+    }
+    
+    public function parent()
+    {
+        return $this->belongsTo(Task::class, 'parent_task_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Task::class, 'parent_task_id');  //->orderBy('position')
+    } 
+
+    public function isTask()
+    {
+        return is_null($this->parent_task_id);
     }
 }

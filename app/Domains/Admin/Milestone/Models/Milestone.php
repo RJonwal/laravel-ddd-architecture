@@ -5,6 +5,7 @@ namespace App\Domains\Admin\Milestone\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Domains\Admin\Project\Models\Project;
+use App\Domains\Admin\Sprint\Models\Sprint;
 use App\Domains\Admin\Task\Models\Task;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -50,6 +51,11 @@ class Milestone extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class)->whereNull('parent_task_id'); //->orderBy('position')
+    }
+
+    public function sprints()
+    {
+        return $this->hasMany(Sprint::class);
     }
 }

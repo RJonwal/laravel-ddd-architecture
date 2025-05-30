@@ -26,6 +26,10 @@
                                     <th style="width:150px;"> @lang('cruds.task.fields.milestone_id')  </th>
                                     <td> {{ $task->milestone_id ? $task->milestone->name : 'N/A' }} </td>
                                 </tr>
+                                <tr>
+                                    <th style="width:150px;"> @lang('cruds.task.fields.sprint_id')  </th>
+                                    <td> {{ $task->sprint_id ? $task->sprint->name : 'N/A' }} </td>
+                                </tr>
                                  <tr>
                                     <th style="width:150px;"> @lang('cruds.task.title_singular')  </th>
                                     <td> {{ $parentName ?? '-' }} </td>

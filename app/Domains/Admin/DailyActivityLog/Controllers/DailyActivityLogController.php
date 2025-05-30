@@ -26,7 +26,7 @@ class DailyActivityLogController extends Controller
      */
     public function index(DailyActivityLogDataTable $dataTable)
     {
-        abort_if(Gate::denies('daily_activity_log_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::none(['daily_activity_log_access','admin_daily_activity_log_access']), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try {
             return $dataTable->render('DailyActivityLog::index');
         } catch (\Exception $e) {
@@ -115,9 +115,8 @@ class DailyActivityLogController extends Controller
                 $dailyActivityLog = DailyActivityLog::where('uuid',$id)->first();
                 if ($dailyActivityLog->parent_daily_task_id) {
                     $parent = DailyActivityLog::find($dailyActivityLog->parent_daily_task_id);
-                    $parentName = $parent ? $parent->name : 'N/A';
                 }
-                $viewHTML = view('DailyActivityLog::show', compact('dailyActivityLog','parentName'))->render();
+                $viewHTML = view('DailyActivityLog::show', compact('dailyActivityLog'))->render();
                 return response()->json(array('success' => true, 'htmlView'=>$viewHTML));
             }
             catch (\Exception $e) {
